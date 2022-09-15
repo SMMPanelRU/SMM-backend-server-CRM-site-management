@@ -1,0 +1,33 @@
+.overlay-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -1rem;
+    margin-left: -1rem;
+    z-index: 10;
+}
+
+.custom-file-upload input {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.horizontal-menu .bottom-navbar .page-navigation > .nav-item.active > .nav-link > i {
+    color: #6571ff;
+}
+
+.ck-editor__editable {
+    min-height: 300px;
+}
+
+.ck.ck-editor {
+    max-width: 500px;
+}
+.ck.ck-editor__main>.ck-editor__editable {
+    background-color: var(--bs-body-bg) !important;
+}

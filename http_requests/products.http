@@ -1,0 +1,7 @@
+GET {{host}}/api/products
+X-Client-Token: {{auth_token}}
+
+###
+
+GET {{host}}/api/products/1
+X-Client-Token: {{auth_token}}

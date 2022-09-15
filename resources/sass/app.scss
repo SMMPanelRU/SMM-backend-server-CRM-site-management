@@ -1,0 +1,76 @@
+@import "@sweetalert2/theme-dark/dark.scss";
+@import "../sass/ckeditor_dark";
+
+// Custom variables
+@import './variables';
+
+@import "bootstrap/scss/bootstrap";
+
+// Bootstrap utilities
+@import './utilities';
+@import "~bootstrap/scss/utilities/api";
+
+// Custom mixins
+@import './mixins/animation';
+@import './mixins/buttons';
+@import './mixins/misc';
+@import './mixins/width';
+
+// Core styles
+@import './background';
+@import './reset';
+@import './functions';
+@import './misc';
+@import './helpers';
+@import './typography';
+@import './demo';
+@import './spinner';
+
+// Layout
+@import './horizontal-wrapper';
+@import './navbar';
+@import './layouts';
+
+// Custom components
+@import "./components/badges";
+@import "./components/bootstrap-alert";
+@import "./components/breadcrumbs";
+@import "./components/buttons";
+@import "./components/cards";
+@import "./components/dashboard";
+@import "./components/dropdown";
+@import "./components/forms";
+@import "./components/icons";
+@import "./components/nav";
+@import "./components/pagination";
+@import "./components/tables";
+@import "./components/timeline";
+@import "./components/chat";
+@import "./components/auth";
+
+// Email app
+@import './components/email/inbox';
+
+// 3rd-Party plugin overrides
+@import "./components/plugin-overrides/ace";
+@import "./components/plugin-overrides/apex-charts";
+@import "./components/plugin-overrides/bootstrap-datepicker";
+@import "./components/plugin-overrides/data-tables";
+@import "./components/plugin-overrides/dropify";
+@import "./components/plugin-overrides/dropzone";
+@import "./components/plugin-overrides/full-calendar";
+@import "./components/plugin-overrides/jquery-flot";
+@import "./components/plugin-overrides/morrisjs";
+@import "./components/plugin-overrides/peity";
+@import "./components/plugin-overrides/perfect-scrollbar";
+@import "./components/plugin-overrides/sweet-alert";
+@import "./components/plugin-overrides/select2";
+@import "./components/plugin-overrides/simplemde";
+@import "./components/plugin-overrides/tags-input";
+@import "./components/plugin-overrides/tempusdominus-bootstrap-4";
+@import "./components/plugin-overrides/tinymce";
+@import "./components/plugin-overrides/typeahead";
+@import "./components/plugin-overrides/wizard";
+
+// Custom scss
+@import "./custom";

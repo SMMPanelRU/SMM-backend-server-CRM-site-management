@@ -1,0 +1,27 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vite build --minify false",
+        "build": "vite build",
+        "watch": "vite build --watch --minify false"
+    },
+    "devDependencies": {
+        "alpinejs": "^3.0.6",
+        "autoprefixer": "^10.4.7",
+        "axios": "^0.27",
+        "laravel-vite-plugin": "^0.6.0",
+        "lodash": "^4.17.19",
+        "postcss": "^8.4.14",
+        "sass": "^1.54.9",
+        "vite": "^3.0.0"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^35.1.0",
+        "@fortawesome/fontawesome-pro": "^6.2.0",
+        "@popperjs/core": "^2.11.6",
+        "@sweetalert2/theme-dark": "^5.0.12",
+        "bootstrap": "^5.2.1",
+        "flatpickr": "^4.6.13",
+        "sweetalert2": "^11.4.33"
+    }
+}

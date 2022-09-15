@@ -1,0 +1,20 @@
+### Register
+# @no-redirect
+POST {{host}}/api/register
+X-Client-Token: {{auth_token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "{{user_name}}",
+    "email": "{{user_email}}",
+    "password": "{{user_password}}",
+    "password_confirmation": "{{user_password}}"
+}
+
+> {%
+client.global.set("user_auth_token", response.body.access_token);
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}

@@ -1,0 +1,34 @@
+### Login
+# @no-redirect
+POST {{host}}/api/login
+X-Client-Token: {{auth_token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "{{user_email}}",
+    "password": "{{user_password}}"
+}
+
+> {%
+client.global.set("user_auth_token", response.body.access_token);
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Me
+# @no-redirect
+GET {{host}}/api/me
+Authorization: Bearer {{user_auth_token}}
+X-Client-Token: {{auth_token}}
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
