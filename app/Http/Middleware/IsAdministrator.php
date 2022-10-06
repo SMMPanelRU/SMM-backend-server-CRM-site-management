@@ -21,8 +21,6 @@ class IsAdministrator
     public function handle(Request $request, Closure $next)
     {
 
-        \Debugbar::disable();
-
         $team = Team::query()->where('name', 'Administrators')->first();
 
         if (Auth::check() ) {
