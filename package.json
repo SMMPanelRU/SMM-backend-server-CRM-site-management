@@ -1,4 +1,5 @@
 {
+    "name": "smmpartner.com",
     "private": true,
     "scripts": {
         "dev": "vite build --minify false",

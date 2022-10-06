@@ -21,10 +21,13 @@ class IsAdministrator
     public function handle(Request $request, Closure $next)
     {
 
+        \Debugbar::disable();
+
         $team = Team::query()->where('name', 'Administrators')->first();
 
         if (Auth::check() ) {
             if ( Auth::user()->belongsToTeam($team)) {
+                \Debugbar::enable();
                 return $next($request);
             }
             return redirect('welcome')->with('error', 'User not found');
