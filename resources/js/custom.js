@@ -6,6 +6,11 @@ window.onload = function () {
     flatpickr(".datepicker-range", {
         mode: "range"
     });
+
+    document.getElementById('navbar-toggle').addEventListener( 'click', function()
+    {
+        document.getElementById('bottom-navbar').classList.toggle('header-toggled')
+    });
 };
 
 window.addEventListener('toast', event => {

@@ -5,6 +5,10 @@
                 <a href="/" class="navbar-brand">
                     Server<span>SMO</span>
                 </a>
+                <a class="navbar-toggler-right d-lg-none align-self-center" type="button" id="navbar-toggle"
+                   data-toggle="horizontal-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </a>
                 <form class="search-form">
                     <div class="input-group">
                         <div class="input-group-text">
@@ -26,7 +30,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i data-feather="grid"></i>
+                            <i class="fas fa-menorah"></i>
                         </a>
                         <div class="dropdown-menu p-0" aria-labelledby="appsDropdown">
                             <div class="px-3 py-2 d-flex align-items-center justify-content-between border-bottom">
@@ -255,14 +259,11 @@
                         </div>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="horizontal-menu-toggle">
-                    <i data-feather="menu"></i>
-                </button>
+
             </div>
         </div>
     </nav>
-    <nav class="bottom-navbar">
+    <nav class="bottom-navbar" id="bottom-navbar">
         <div class="container">
             <ul class="nav page-navigation">
                 <li class="nav-item {{ active_class(['/']) }}">
