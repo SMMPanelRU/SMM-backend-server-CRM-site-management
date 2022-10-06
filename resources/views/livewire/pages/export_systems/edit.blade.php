@@ -64,7 +64,7 @@
 
                         <tr>
                             <th class="align-middle">
-                                {{__('export_systems.balance')}}
+                                {{__('export_system.balance')}}
                             </th>
                             <td>
                                 <input type="text" readonly value="{{ $balance }}" class="form-control form-control-sm">
@@ -93,6 +93,33 @@
 
                     </td>
                 </tr>
+            </table>
+        </div>
+
+
+        <div class="col-sm-6">
+            <h2>{{ucfirst(__('forms.export_system_product'))}}</h2>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>UNIQUE</th>
+                    <th>NAME</th>
+                    <th>PRICE</th>
+                    <th>MIN</th>
+                    <th>MAX</th>
+                </tr>
+                </thead>
+                @foreach($exportSystem->exportSystemProducts as $exportSystemProduct)
+                    <tr>
+                        <td>{{$exportSystemProduct->id}}</td>
+                        <td>{{$exportSystemProduct->unique_id}}</td>
+                        <td>{{$exportSystemProduct->name}}</td>
+                        <td>{{$exportSystemProduct->price}}</td>
+                        <td>{{$exportSystemProduct->min}}</td>
+                        <td>{{$exportSystemProduct->max}}</td>
+                    </tr>
+                @endforeach
             </table>
         </div>
 

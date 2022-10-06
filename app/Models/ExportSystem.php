@@ -7,6 +7,7 @@ use App\Models\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -23,6 +24,8 @@ use Spatie\Translatable\HasTranslations;
  * @property array|null $settings
  * @property string|null $name_en
  * @property string|null $name_ru
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExportSystemProduct[] $exportSystemProducts
+ * @property-read int|null $export_system_products_count
  * @method static Builder|ExportSystem active()
  * @method static Builder|ExportSystem newModelQuery()
  * @method static Builder|ExportSystem newQuery()
@@ -60,6 +63,11 @@ class ExportSystem extends Model
     public function scopeActive($query)
     {
         return $query->where(['status' => DefaultStatusEnum::ON]);
+    }
+
+    public function exportSystemProducts(): HasMany
+    {
+        return $this->hasMany(ExportSystemProduct::class);
     }
 
 }

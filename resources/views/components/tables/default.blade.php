@@ -15,7 +15,7 @@
                 </label>
             </div>
         </div>
-        @if ($settings['create_route'])
+        @if ($settings['create_route'] ?? null)
             <div class="col-sm-12 col-md-6 text-end">
                 <a href="{{ $settings['create_route']}}"><i class="fas fa-plus"></i></a>
             </div>

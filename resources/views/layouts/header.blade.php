@@ -274,7 +274,7 @@
                 <li class="nav-item {{ active_class([route('categories', [], false), route('products', [], false)]) }}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-hippo"></i>
-                        <span class="menu-title me-1 ms-2">{{ucfirst(__('products'))}}</span>
+                        <span class="menu-title me-1 ms-2">{{ucfirst(__('text.products'))}}</span>
                         <i class="fas fa-chevron-down "></i>
                     </a>
                     <div class="submenu">
@@ -283,14 +283,14 @@
                                 <a href="{{route('products')}}"
                                    class="nav-link {{ active_class([route('products', [], false)]) }} ">
                                     <i class="fas fa-hippo"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('products'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.products'))}}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{route('categories')}}"
                                    class="nav-link {{ active_class([route('categories', [], false)]) }} ">
                                     <i class="fas fa-folder-tree"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('categories'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.categories'))}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -300,33 +300,33 @@
                 <li class="nav-item {{ active_class([route('sites', [], false), route('attributes', [], false), route('export_systems', [], false)])}}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-gears "></i>
-                        <span class="menu-title me-1 ms-2">{{ucfirst(__('settings'))}}</span>
+                        <span class="menu-title me-1 ms-2">{{ucfirst(__('text.settings'))}}</span>
                         <i class="fas fa-chevron-down "></i>
                     </a>
                     <div class="submenu">
                         <ul class="submenu-item">
-                            <li class="category-heading">{{ucfirst(__('products'))}}</li>
+                            <li class="category-heading">{{ucfirst(__('text.products'))}}</li>
                             <li class="nav-item">
                                 <a href="{{route('attributes')}}"
                                    class="nav-link {{ active_class([route('attributes', [], false)]) }} ">
                                     <i class="fas fa-sliders"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('attributes'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.attributes'))}}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{route('export_systems')}}"
                                    class="nav-link {{ active_class([route('export_systems', [], false)]) }} ">
                                     <i class="fas fa-external-link"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('export_systems'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.export_systems'))}}</span>
                                 </a>
                             </li>
-                            <li class="category-heading">{{ucfirst(__('sites'))}}
+                            <li class="category-heading">{{ucfirst(__('text.sites'))}}
                             <li>
                             <li class="nav-item">
                                 <a href="{{route('sites')}}"
                                    class="nav-link {{ active_class([route('sites', [], false)]) }} ">
                                     <i class="fas fa-earth"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('sites'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.sites'))}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -336,7 +336,7 @@
                 <li class="nav-item {{ active_class([route('pages', [], false), route('faqs', [], false)])}}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-page "></i>
-                        <span class="menu-title me-1 ms-2">{{ucfirst(__('pages'))}}</span>
+                        <span class="menu-title me-1 ms-2">{{ucfirst(__('text.pages'))}}</span>
                         <i class="fas fa-chevron-down "></i>
                     </a>
                     <div class="submenu">
@@ -345,14 +345,14 @@
                                 <a href="{{route('pages')}}"
                                    class="nav-link {{ active_class([route('pages', [], false)]) }} ">
                                     <i class="fas fa-page"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('pages'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.pages'))}}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{route('faqs')}}"
                                    class="nav-link {{ active_class([route('faqs', [], false)]) }} ">
                                     <i class="fas fa-square-question"></i>
-                                    <span class="menu-title ms-2">{{ucfirst(__('faqs'))}}</span>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.faq'))}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -363,7 +363,7 @@
                 <li class="nav-item">
                     <a href="{{route('telescope')}}" class="nav-link" target="_blank">
                         <i class="fas fa-telescope"></i>
-                        <span class="menu-title ms-2">{{ucfirst(__('telescope'))}}</span>
+                        <span class="menu-title ms-2">{{ucfirst(__('text.telescope'))}}</span>
                     </a>
                 </li>
 

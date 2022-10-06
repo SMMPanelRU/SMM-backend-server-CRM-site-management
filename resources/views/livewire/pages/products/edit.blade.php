@@ -82,14 +82,39 @@
     </div>
 
 
-    <div class="row">
-
+    <div class="row mt-4">
 
         <div class="col-sm-6">
-            <h2>{{__('form.attributes')}}</h2>
+            <h2>{{__('form.export')}}</h2>
             <table class="table table-hover table-striped ">
 
-                <x-forms.attributes-edit :allAttributes="$allAttributes"/>
+
+                <tr>
+                    <th>{{__('form.export_system')}}</th>
+                    <td>
+                        <select class="form-control-sm form-control" wire:model="exportSystem">
+                            <option value="0">{{__('fields.choose')}}</option>
+                            @foreach($allExportSystems as $exportSystem)
+                                <option value="{{$exportSystem->id}}">{{$exportSystem->name}}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+
+                @if ($exportSystemProducts ?? null)
+                    <tr>
+                        <th>{{__('form.export_system_product')}}</th>
+                        <td>
+                            <select class="form-control-sm form-control" wire:model.defer="product.export_system_product_id">
+                                <option value="">{{__('fields.choose')}}</option>
+                                @foreach($exportSystemProducts as $exportSystemProduct)
+                                    <option value="{{$exportSystemProduct->id}}">{{$exportSystemProduct->name}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                @endif
+
 
                 <tr>
                     <th colspan="2">
@@ -113,6 +138,16 @@
 
                     </th>
                 </tr>
+            </table>
+        </div>
+
+        <div class="col-sm-6">
+            <h2>{{__('forms.attributes')}}</h2>
+            <table class="table table-hover table-striped ">
+
+                <x-forms.attributes-edit :allAttributes="$allAttributes"/>
+
+
             </table>
         </div>
     </div>

@@ -20,7 +20,7 @@ return new class extends Migration {
 
             $table->string('name')->index();
             $table->string('unique_id')->index();
-            $table->boolean('status')->default(false)->index();
+            $table->boolean('status')->default(true)->index();
             $table->decimal('price')->nullable();
             $table->integer('min')->nullable();
             $table->integer('max')->nullable();

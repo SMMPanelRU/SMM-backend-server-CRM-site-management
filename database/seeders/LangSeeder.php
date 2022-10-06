@@ -33,34 +33,53 @@ class LangSeeder extends Seeder
     private function texts()
     {
         $texts = [
-            'pagination' => [
+            'pagination'    => [
                 'show'    => ['en' => 'show', 'ru' => 'показывать'],
                 'entries' => ['en' => 'entries', 'ru' => 'записей'],
                 'showing' => ['en' => 'showing', 'ru' => 'отображается'],
                 'of'      => ['en' => 'of', 'ru' => 'из'],
             ],
-            'fields'     => [
-                'name'   => ['en' => 'name', 'ru' => 'название'],
-                'slug'   => ['en' => 'slug', 'ru' => 'код'],
-                'sort'   => ['en' => 'sort', 'ru' => 'сортировка'],
-                'logo'   => ['en' => 'logo', 'ru' => 'лого'],
-                'parent' => ['en' => 'parent', 'ru' => 'родитель'],
-                'choose' => ['en' => 'choose', 'ru' => 'выбрать'],
+            'fields'        => [
+                'name'    => ['en' => 'name', 'ru' => 'название'],
+                'slug'    => ['en' => 'slug', 'ru' => 'код'],
+                'sort'    => ['en' => 'sort', 'ru' => 'сортировка'],
+                'logo'    => ['en' => 'logo', 'ru' => 'лого'],
+                'parent'  => ['en' => 'parent', 'ru' => 'родитель'],
+                'choose'  => ['en' => 'choose', 'ru' => 'выбрать'],
+                'handler' => ['en' => 'handler', 'ru' => 'обработчик'],
+                'status'  => ['en' => 'status', 'ru' => 'статус'],
             ],
-            'forms'      => [
-                'save'   => ['en' => 'save', 'ru' => 'сохранить'],
-                'create' => ['en' => 'create', 'ru' => 'создать'],
-                'delete' => ['en' => 'delete', 'ru' => 'удалить'],
+            'forms'         => [
+                'save'                  => ['en' => 'save', 'ru' => 'сохранить'],
+                'create'                => ['en' => 'create', 'ru' => 'создать'],
+                'delete'                => ['en' => 'delete', 'ru' => 'удалить'],
+                'export_system_product' => ['en' => 'export products', 'ru' => 'услуги экспорта'],
+            ],
+            'export_system' => [
+                'Api_key' => ['en' => 'api key', 'ru' => 'api ключ'],
+                'balance' => ['en' => 'balance', 'ru' => 'Баланс'],
+            ],
+            'text'          => [
+                'products'       => ['en' => 'products', 'ru' => 'товары'],
+                'settings'       => ['en' => 'settings', 'ru' => 'настройки'],
+                'categories'     => ['en' => 'categories', 'ru' => 'категории'],
+                'attributes'     => ['en' => 'attributes', 'ru' => 'аттрибуты'],
+                'sites'          => ['en' => 'sites', 'ru' => 'сайты'],
+                'pages'          => ['en' => 'pages', 'ru' => 'страницы'],
+                'faq'            => ['en' => 'faq', 'ru' => 'faq'],
+                'export_systems' => ['en' => 'export systems', 'ru' => 'системы экспорта'],
             ],
         ];
 
         foreach ($texts as $group => $values) {
             foreach ($values as $key => $value) {
-                LanguageLine::query()->create([
-                    'group' => $group,
-                    'key'   => $key,
-                    'text'  => $value,
-                ]);
+                LanguageLine::query()->updateOrCreate(
+                    [
+                        'group' => $group,
+                        'key'   => $key,
+                    ],
+                    ['text' => $value]
+                );
             }
         }
     }
@@ -75,11 +94,14 @@ class LangSeeder extends Seeder
         ];
 
         foreach ($entities as $key => $value) {
-            LanguageLine::query()->create([
-                'group' => 'entities',
-                'key'   => $key,
-                'text'  => $value,
-            ]);
+            LanguageLine::query()->updateOrCreate(
+                [
+                    'group' => 'entities',
+                    'key'   => $key,
+                ],
+                ['text' => $value]
+            );
+
         }
 
     }
@@ -93,11 +115,14 @@ class LangSeeder extends Seeder
         ];
 
         foreach ($enums as $key => $value) {
-            LanguageLine::query()->create([
-                'group' => 'enums',
-                'key'   => $key,
-                'text'  => $value,
-            ]);
+            LanguageLine::query()->updateOrCreate(
+                [
+                    'group' => 'enums',
+                    'key'   => $key,
+                ],
+                ['text' => $value]
+            );
+
         }
 
     }

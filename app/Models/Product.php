@@ -8,6 +8,7 @@ use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Translatable\HasTranslations;
@@ -37,6 +38,7 @@ use Spatie\Translatable\HasTranslations;
  * @property-read int|null                                                              $attributes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[]       $categories
  * @property-read int|null                                                              $categories_count
+ * @property-read \App\Models\ExportSystemProduct|null                                  $exportSystemProduct
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Site[]           $sites
  * @property-read int|null                                                              $sites_count
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
@@ -100,6 +102,16 @@ class Product extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'product_categories')->withTimestamps();
+    }
+
+    public function exportSystem(): BelongsTo
+    {
+        return $this->exportSystemProduct->exportSystem();
+    }
+
+    public function exportSystemProduct(): BelongsTo
+    {
+        return $this->belongsTo(ExportSystemProduct::class);
     }
 
 }

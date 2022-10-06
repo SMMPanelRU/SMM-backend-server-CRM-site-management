@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Pages\Products;
 use App\Enum\Attributes\AttributeTypesEnum;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\ExportSystem;
+use App\Models\ExportSystemProduct;
 use App\Models\Product;
 use App\Models\Site;
 use App\Traits\EntityAttributeTrait;
@@ -23,9 +25,12 @@ class ProductEdit extends Component
     public Collection $allCategories;
     public Collection $allAttributes;
     public Collection $allSites;
-    public array      $attr  = [];
-    public array      $cats  = [];
-    public array      $sites = [];
+    public array      $attr         = [];
+    public array      $cats         = [];
+    public array      $sites        = [];
+    public ?int       $exportSystem = null;
+    public Collection $allExportSystems;
+    public ?Collection $exportSystemProducts = null;
 
     public function rules()
     {
@@ -44,6 +49,7 @@ class ProductEdit extends Component
             'product.sort'      => 'required|numeric',
             'product.price'     => 'required|numeric',
             'product.old_price' => 'sometimes|numeric',
+            'product.export_system_product_id' => 'sometimes|numeric',
 
             'cats.*'  => "sometimes",
             'attr.*'  => 'sometimes',
@@ -53,9 +59,10 @@ class ProductEdit extends Component
 
     public function boot()
     {
-        $this->allCategories = Category::query()->get();
-        $this->allSites      = Site::query()->get();
-        $this->allAttributes = Attribute::query()->where('entity_type', Product::class)->get();
+        $this->allCategories    = Category::query()->get();
+        $this->allSites         = Site::query()->get();
+        $this->allAttributes    = Attribute::query()->where('entity_type', Product::class)->get();
+        $this->allExportSystems = ExportSystem::query()->active()->get();
 
         if (!$this->product) {
             $this->product = new Product();
@@ -71,7 +78,7 @@ class ProductEdit extends Component
     {
 
         if ($this->product->id ?? null) {
-            $product = Product::query()->with('attributes')->find($this->product->id);
+            $product = Product::query()->with(['attributes', 'exportSystemProduct'])->find($this->product->id);
 
             if ($product->attributes ?? null) {
                 foreach ($product->attributes as $attr) {
@@ -90,9 +97,35 @@ class ProductEdit extends Component
             $this->cats = $product->categories->pluck('id')->toArray();
 
             $this->sites = $product->sites()->pluck('site_id')->toArray();
+
+            if ($product->export_system_product_id ?? null) {
+                $this->exportSystem = $product->exportSystem->id;
+                $this->exportSystemProducts = $product->exportSystem->exportSystemProducts()->active()->get();
+            }
+
         }
 
         return view('livewire.pages.products.edit');
+    }
+
+    public function updatedExportSystem($value): bool
+    {
+
+        if ((int) $value === 0) {
+            $this->exportSystem = null;
+            $this->exportSystemProducts = null;
+            return false;
+        }
+
+        $exportSystem = ExportSystem::find($value);
+        if ($exportSystem === null) {
+            $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => __('errors.Export system not found')]);
+            return false;
+        }
+
+        $this->exportSystemProducts = ExportSystemProduct::query()->active()->where('export_system_id', $exportSystem->id)->get();
+
+        return true;
     }
 
     public function submit(): bool

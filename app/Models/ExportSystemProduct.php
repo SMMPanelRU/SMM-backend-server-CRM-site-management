@@ -12,18 +12,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * App\Models\ExportSystemProduct
  *
- * @property int                             $id
+ * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int                             $export_system_id
- * @property string                          $name
- * @property string                          $unique_id
- * @property DefaultStatusEnum               $status
- * @property string|null                     $price
- * @property int|null                        $min
- * @property int|null                        $max
- * @property array|null                      $data
- * @property-read \App\Models\ExportSystem   $exportSystem
+ * @property int $export_system_id
+ * @property string $name
+ * @property string $unique_id
+ * @property DefaultStatusEnum $status
+ * @property string|null $price
+ * @property int|null $min
+ * @property int|null $max
+ * @property object|null $data
+ * @property-read \App\Models\ExportSystem $exportSystem
+ * @method static Builder|ExportSystemProduct active()
  * @method static Builder|ExportSystemProduct newModelQuery()
  * @method static Builder|ExportSystemProduct newQuery()
  * @method static Builder|ExportSystemProduct query()
@@ -56,6 +57,11 @@ class ExportSystemProduct extends Model
         'status' => DefaultStatusEnum::class,
         'data'   => 'object',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where(['status' => DefaultStatusEnum::ON]);
+    }
 
     public function exportSystem(): BelongsTo
     {
