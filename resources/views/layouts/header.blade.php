@@ -272,6 +272,21 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="nav-item {{ active_class([route('orders', [], false)]) }}">
+                    <a class="nav-link" href="{{ route('orders', [], false) }}">
+                        <i class="fas fa-basket-shopping"></i>
+                        <span class="menu-title ms-2">{{ucfirst(__('text.orders'))}}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ active_class([route('users', [], false)]) }}">
+                    <a class="nav-link" href="{{ route('users', [], false) }}">
+                        <i class="fas fa-users"></i>
+                        <span class="menu-title ms-2">{{ucfirst(__('text.users'))}}</span>
+                    </a>
+                </li>
+
                 <li class="nav-item {{ active_class([route('categories', [], false), route('products', [], false)]) }}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-hippo"></i>

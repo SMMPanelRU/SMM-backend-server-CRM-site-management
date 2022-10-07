@@ -2,30 +2,48 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
 use App\Models\User;
+use App\Services\SiteContainer;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AuthController
 {
 
     public function register(Request $request)
     {
+
+        $site = app(SiteContainer::class)->getSite();
+
+        if (!$site) {
+            abort(401);
+        }
+
         $validatedData = $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
+            'email'    => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')
+                    ->where('site_id', $site->id),
+            ],
             'password' => 'required|string|min:8',
         ]);
+
 
         $user = User::create([
             'name'     => $validatedData['name'],
             'email'    => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
+
+        $user->site()->associate($site);
+
+        $user->save();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -37,7 +55,20 @@ class AuthController
 
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+
+        $site = app(SiteContainer::class)->getSite();
+
+        if (!$site) {
+            abort(401);
+        }
+
+        $authData = [
+            'email'=>$request->get('email'),
+            'password'=>$request->get('password'),
+            'site_id'=>$site->id,
+        ];
+
+        if (!Auth::attempt($authData)) {
             return response()->json([
                 'message' => 'Invalid login details',
             ], 401);
@@ -53,8 +84,5 @@ class AuthController
         ]);
     }
 
-    public function me(Request $request)
-    {
-        return $request->user();
-    }
+
 }

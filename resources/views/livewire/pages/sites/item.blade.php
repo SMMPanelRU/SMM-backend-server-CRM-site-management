@@ -45,6 +45,9 @@
         @endif
     </td>
     <td>
+        {{$site->currency->code}}
+    </td>
+    <td>
         @if (!$deleteLoading)
             <span class="cursor-pointer" wire:click="delete({{$site->id}})" wire:loading.remove>
                 <i class="fas fa-trash"></i>

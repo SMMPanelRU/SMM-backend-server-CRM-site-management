@@ -3,10 +3,9 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +40,9 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
          ]));
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/me', [UserController::class, 'me']);
+
+        Route::post('/email_verify', [UserController::class, 'emailVerified']);
 
         Route::group(['prefix' => 'orders'], function () {
 

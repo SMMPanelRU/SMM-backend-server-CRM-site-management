@@ -68,6 +68,8 @@ class LangSeeder extends Seeder
                 'pages'          => ['en' => 'pages', 'ru' => 'страницы'],
                 'faq'            => ['en' => 'faq', 'ru' => 'faq'],
                 'export_systems' => ['en' => 'export systems', 'ru' => 'системы экспорта'],
+                'orders'         => ['en' => 'orders', 'ru' => 'заказы'],
+                'users'          => ['en' => 'users', 'ru' => 'пользователи'],
             ],
         ];
 

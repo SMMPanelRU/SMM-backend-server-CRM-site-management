@@ -34,7 +34,7 @@ trait SearchTrait
                     }
 
                     if ($searchType === 'match') {
-                        if (in_array($k, $this->translatable)) {
+                        if ($this->translatable && in_array($k, $this->translatable)) {
                             $query->where(function ($query) use ($k, $value) {
                                 foreach (config('app.locales') as $locale) {
                                     $query->orWhere(DB::raw("lower({$k}->\"$.{$locale}\")"), 'LIKE', "%{$value}%");
@@ -46,7 +46,7 @@ trait SearchTrait
                     }
 
                     if ($searchType === 'like') {
-                        if (in_array($k, $this->translatable)) {
+                        if ($this->translatable && in_array($k, $this->translatable)) {
                             $query->where(function ($query) use ($k, $value) {
                                 foreach (config('app.locales') as $locale) {
                                     $query->orWhere(DB::raw("lower({$k}->\"$.{$locale}\")"), 'LIKE', "%{$value}%");

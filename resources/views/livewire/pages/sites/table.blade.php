@@ -58,7 +58,10 @@
                         </select>
                     </th>
                     <th class="align-middle">
-                        {{__('api key')}}
+                        {{__('text.api key')}}
+                    </th>
+                    <th class="align-middle">
+                        {{__('text.currency')}}
                     </th>
                     <th></th>
                 </tr>

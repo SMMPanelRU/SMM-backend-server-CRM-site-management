@@ -37,7 +37,7 @@ class PaymentSystemSeeder extends Seeder
         foreach ($paymentSystems as $name => $data) {
 
             $paymentSystem           = new PaymentSystem();
-            $paymentSystem->name     = $name;
+            $paymentSystem->name     = $data['name'];
             $paymentSystem->status   = $data['status'];
             $paymentSystem->slug     = $data['slug'];
             $paymentSystem->handler  = $data['handler'];

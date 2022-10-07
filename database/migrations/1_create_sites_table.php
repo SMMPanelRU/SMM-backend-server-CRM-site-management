@@ -22,6 +22,9 @@ return new class extends Migration
             $table->boolean('status')->default(false)->index();
             $table->string('api_key');
             $table->string('url')->nullable()->index();
+
+            $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete();
+
         });
     }
 

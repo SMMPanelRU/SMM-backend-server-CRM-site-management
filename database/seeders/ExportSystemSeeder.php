@@ -35,7 +35,7 @@ class ExportSystemSeeder extends Seeder
         foreach ($exportSystem as $name => $data) {
 
             $exportSystem           = new ExportSystem();
-            $exportSystem->name     = $name;
+            $exportSystem->name     = $data['name'];
             $exportSystem->status   = $data['status'];
             $exportSystem->slug     = $data['slug'];
             $exportSystem->handler  = $data['handler'];

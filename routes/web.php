@@ -8,11 +8,15 @@ use App\Http\Livewire\Pages\ExportSystems\ExportSystemEdit;
 use App\Http\Livewire\Pages\ExportSystems\ExportSystemTable;
 use App\Http\Livewire\Pages\Faqs\FaqEdit;
 use App\Http\Livewire\Pages\Faqs\FaqTable;
+use App\Http\Livewire\Pages\Orders\OrderEdit;
+use App\Http\Livewire\Pages\Orders\OrderTable;
 use App\Http\Livewire\Pages\Pages\PageEdit;
 use App\Http\Livewire\Pages\Pages\PageTable;
 use App\Http\Livewire\Pages\Products\ProductEdit;
 use App\Http\Livewire\Pages\Products\ProductTable;
 use App\Http\Livewire\Pages\Sites\SiteTable;
+use App\Http\Livewire\Pages\Users\UserEdit;
+use App\Http\Livewire\Pages\Users\UserTable;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -115,6 +119,23 @@ Route::middleware([
         Route::get('', FaqTable::class)->name('faqs');
 
     });
+
+    Route::group(['prefix' => 'orders'], function () {
+
+        Route::get('/orders/{order?}', OrderEdit::class)->name('orders.edit');
+
+        Route::get('', OrderTable::class)->name('orders');
+
+    });
+
+    Route::group(['prefix' => 'users'], function () {
+
+        Route::get('/users/{user?}', UserEdit::class)->name('users.edit');
+
+        Route::get('', UserTable::class)->name('users');
+
+    });
+
 
     Route::group(['prefix' => 'products'], function () {
 

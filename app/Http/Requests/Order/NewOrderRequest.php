@@ -55,7 +55,7 @@ class NewOrderRequest extends FormRequest
             }
 
             foreach ($validator->validated()['items'] as $key => $requestItem) {
-                $product = Product::query()->forSite($site)->with('attributes')->find($requestItem['id']);
+                $product = $this->site->products()->with('attributes')->find($requestItem['id']);
                 if ($product === null) {
                     $validator->errors()->add('items.' . $key, "Item not found");
                     continue;
