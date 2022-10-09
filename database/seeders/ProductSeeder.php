@@ -6,6 +6,7 @@ use App\Enum\DefaultStatusEnum;
 use App\Models\AttributePredefinedValue;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\Site;
 use App\Models\Team;
 use App\Models\User;
@@ -57,9 +58,9 @@ If you have any questions, you can not decide on the choice of service for Insta
                 'status'            => DefaultStatusEnum::ON,
                 'category'          => Category::query()->where('slug', 'instagram-igtv')->first()->id,
                 'sites'             => [Site::query()->find(1)->id],
-                'attributes'=>[
-                    'min_count'=>1000,
-                    'max_count'=>10000,
+                'attributes'        => [
+                    'min_count' => 1000,
+                    'max_count' => 10000,
                 ],
             ],
 
@@ -91,9 +92,9 @@ If you have any questions, you can’t decide on the choice of service for Insta
                 'status'            => DefaultStatusEnum::ON,
                 'category'          => Category::query()->where('slug', 'instagram-igtv')->first()->id,
                 'sites'             => Site::query()->pluck('id'),
-                'attributes'=>[
-                    'min_count'=>100,
-                    'max_count'=>5000,
+                'attributes'        => [
+                    'min_count' => 100,
+                    'max_count' => 5000,
                 ],
             ],
         ];
@@ -106,17 +107,27 @@ If you have any questions, you can’t decide on the choice of service for Insta
             $product->name              = $data['name'];
             $product->short_description = $data['short_description'];
             $product->description       = $data['description'];
-            $product->price             = $data['price'];
-            $product->old_price         = $data['old_price'];
-            $product->multiplicity      = $data['multiplicity'];
-            $product->slug              = $data['slug'];
-            $product->status            = $data['status'];
-            $product->sort              = $sort;
+//            $product->price             = $data['price'];
+//            $product->old_price         = $data['old_price'];
+            $product->multiplicity = $data['multiplicity'];
+            $product->slug         = $data['slug'];
+            $product->status       = $data['status'];
+            $product->sort         = $sort;
 
             $product->save();
 
             $product->categories()->attach([$data['category']]);
             $product->sites()->attach($data['sites']);
+
+            foreach ($data['sites'] as $site) {
+                $product->price()->create(
+                    [
+                        'site_id'   => $site,
+                        'price'     => $data['price'],
+                        'old_price' => $data['old_price'],
+                    ]
+                );
+            }
 
             $this->updateEntityAttributes($product, $data['attributes']);
 

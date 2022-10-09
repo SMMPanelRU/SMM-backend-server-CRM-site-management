@@ -82,13 +82,6 @@ class Product extends Model
         'status' => DefaultStatusEnum::class,
     ];
 
-    public function scopeForSite(Builder $query, Site $site): Builder
-    {
-        return $query->whereHas('sites', function ($query) use ($site) {
-            $query->where('product_sites.site_id', $site->id);
-        });
-    }
-
     public function attributes(): MorphToMany
     {
         return $this->morphToMany(AttributeValue::class, 'entity_attribute')->with(['attribute']);
@@ -114,4 +107,8 @@ class Product extends Model
         return $this->belongsTo(ExportSystemProduct::class);
     }
 
+    public function price($siteId = null)
+    {
+        return $this->hasOne(ProductPrice::class)->where('site_id' ,$siteId);
+    }
 }

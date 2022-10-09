@@ -24,8 +24,6 @@ return new class extends Migration
             $table->string('slug')->index();
             $table->string('logo')->nullable();
             $table->integer('sort')->default(0);
-            $table->decimal('price');
-            $table->decimal('old_price')->nullable();
             $table->integer('multiplicity')->default(1);
 
             $table->foreignId('export_system_product_id')->nullable()->constrained()->nullOnDelete();
