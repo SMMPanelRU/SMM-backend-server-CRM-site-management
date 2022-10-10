@@ -15,6 +15,8 @@ use App\Http\Livewire\Pages\Pages\PageTable;
 use App\Http\Livewire\Pages\Products\ProductEdit;
 use App\Http\Livewire\Pages\Products\ProductTable;
 use App\Http\Livewire\Pages\Sites\SiteTable;
+use App\Http\Livewire\Pages\Translations\TranslationEdit;
+use App\Http\Livewire\Pages\Translations\TranslationTable;
 use App\Http\Livewire\Pages\Users\UserEdit;
 use App\Http\Livewire\Pages\Users\UserTable;
 use Illuminate\Support\Facades\Route;
@@ -87,6 +89,15 @@ Route::middleware([
         Route::get('', SiteTable::class)->name('sites');
 
     });
+
+    Route::group(['prefix' => 'translations'], function () {
+
+        Route::get('/edit/{translation?}', TranslationEdit::class)->name('translations.edit');
+
+        Route::get('', TranslationTable::class)->name('translations');
+
+    });
+
 
     Route::group(['prefix' => 'categories'], function () {
 

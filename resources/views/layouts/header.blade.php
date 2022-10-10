@@ -313,7 +313,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item {{ active_class([route('sites', [], false), route('attributes', [], false), route('export_systems', [], false)])}}">
+                <li class="nav-item {{ active_class([route('sites', [], false), route('attributes', [], false), route('export_systems', [], false), route('translations', [], false)])}}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-gears "></i>
                         <span class="menu-title me-1 ms-2">{{ucfirst(__('text.settings'))}}</span>
@@ -343,6 +343,13 @@
                                    class="nav-link {{ active_class([route('sites', [], false)]) }} ">
                                     <i class="fas fa-earth"></i>
                                     <span class="menu-title ms-2">{{ucfirst(__('text.sites'))}}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('translations')}}"
+                                   class="nav-link {{ active_class([route('translations', [], false)]) }} ">
+                                    <i class="fa-light fa-language"></i>
+                                    <span class="menu-title ms-2">{{ucfirst(__('text.translations'))}}</span>
                                 </a>
                             </li>
                         </ul>

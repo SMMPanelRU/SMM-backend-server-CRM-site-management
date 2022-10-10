@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Pages\Users;
 
+use App\Enum\DefaultStatusEnum;
 use App\Models\User;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
 
 class UserItem extends Component
@@ -13,7 +15,12 @@ class UserItem extends Component
 
     public function rules()
     {
-        return [];
+        return [
+            'user.status' => [
+                'required',
+                new Enum(DefaultStatusEnum::class),
+            ],
+        ];
     }
 
     public function render()

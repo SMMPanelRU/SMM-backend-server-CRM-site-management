@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pages\Users;
 
+use App\Enum\DefaultStatusEnum;
 use App\Http\Livewire\SortTrait;
 use App\Models\Site;
 use App\Models\User;
@@ -45,7 +46,9 @@ class UserTable extends Component
             TableLayout::makeColumn('id', 'ID', 'text', null, false, 'wd-10p'),
             TableLayout::makeColumn('name', 'Name', 'text'),
             TableLayout::makeColumn('email', 'Email', 'text'),
+            TableLayout::makeColumn('balance', 'Balance'),
             TableLayout::makeColumn('site_id', 'Site', 'select', Site::query()->pluck('name', 'id')),
+            TableLayout::makeColumn('status', 'Status', 'select', DefaultStatusEnum::asKeyValue()),
             TableLayout::makeColumn('', ''),
         ];
 
