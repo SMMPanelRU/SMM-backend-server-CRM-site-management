@@ -287,6 +287,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item {{ active_class([route('tickets', [], false)]) }}">
+                    <a class="nav-link" href="{{ route('tickets', [], false) }}">
+                        <i class="fas fa-comments-question-check"></i>
+                        <span class="menu-title ms-2">{{ucfirst(__('text.tickets'))}}</span>
+                    </a>
+                </li>
+
                 <li class="nav-item {{ active_class([route('categories', [], false), route('products', [], false)]) }}">
                     <a href="#" class="nav-link ">
                         <i class="fas fa-hippo"></i>

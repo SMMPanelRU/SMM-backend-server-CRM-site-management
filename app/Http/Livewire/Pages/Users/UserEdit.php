@@ -30,7 +30,7 @@ class UserEdit extends Component
     public ?string    $balanceChangeDescription = null;
 
 
-    public function rules()
+    public function rules(): array
     {
 
         return [
@@ -84,7 +84,7 @@ class UserEdit extends Component
         return true;
     }
 
-    public function updateBalance()
+    public function updateBalance(): bool
     {
 
         $this->validate();

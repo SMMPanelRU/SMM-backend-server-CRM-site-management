@@ -66,6 +66,7 @@ services:
             - smo-network
 networks:
     smo-network:
+        external: true
         driver: bridge
 
 volumes:

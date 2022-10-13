@@ -15,6 +15,8 @@ use App\Http\Livewire\Pages\Pages\PageTable;
 use App\Http\Livewire\Pages\Products\ProductEdit;
 use App\Http\Livewire\Pages\Products\ProductTable;
 use App\Http\Livewire\Pages\Sites\SiteTable;
+use App\Http\Livewire\Pages\Tickets\TicketEdit;
+use App\Http\Livewire\Pages\Tickets\TicketTable;
 use App\Http\Livewire\Pages\Translations\TranslationEdit;
 use App\Http\Livewire\Pages\Translations\TranslationTable;
 use App\Http\Livewire\Pages\Users\UserEdit;
@@ -95,6 +97,14 @@ Route::middleware([
         Route::get('/edit/{translation?}', TranslationEdit::class)->name('translations.edit');
 
         Route::get('', TranslationTable::class)->name('translations');
+
+    });
+
+    Route::group(['prefix' => 'tickets'], function () {
+
+        Route::get('/edit/{ticket?}', TicketEdit::class)->name('tickets.edit');
+
+        Route::get('', TicketTable::class)->name('tickets');
 
     });
 

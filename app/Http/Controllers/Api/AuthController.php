@@ -48,6 +48,7 @@ class AuthController
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            'user_id'      => $user->id,
             'access_token' => $token,
             'token_type'   => 'Bearer',
         ]);
@@ -63,9 +64,9 @@ class AuthController
         }
 
         $authData = [
-            'email'=>$request->get('email'),
-            'password'=>$request->get('password'),
-            'site_id'=>$site->id,
+            'email'    => $request->get('email'),
+            'password' => $request->get('password'),
+            'site_id'  => $site->id,
         ];
 
         if (!Auth::attempt($authData)) {
@@ -79,6 +80,7 @@ class AuthController
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            'user_id'      => $user->id,
             'access_token' => $token,
             'token_type'   => 'Bearer',
         ]);

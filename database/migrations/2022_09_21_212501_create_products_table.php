@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('short_description_en')->storedAs('JSON_UNQUOTE(short_description->>"$.en")')->index();
             $table->string('short_description_ru')->storedAs('JSON_UNQUOTE(short_description->>"$.ru")')->index();
 
+            $table->boolean('is_free')->default(false)->index();
+
         });
     }
 

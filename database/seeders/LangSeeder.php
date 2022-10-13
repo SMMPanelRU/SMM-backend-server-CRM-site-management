@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enum\Attributes\AttributeTypesEnum;
 use App\Enum\DefaultStatusEnum;
 use App\Enum\EnumTrait;
+use App\Enum\Tickets\TicketStatusEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Site;
@@ -112,8 +113,13 @@ class LangSeeder extends Seeder
     {
 
         $enums = [
-            DefaultStatusEnum::class . '.' . DefaultStatusEnum::OFF->name => ['en' => 'OFF', 'ru' => 'Выкл'],
-            DefaultStatusEnum::class . '.' . DefaultStatusEnum::ON->name  => ['en' => 'ON', 'ru' => 'Вкл'],
+            DefaultStatusEnum::class . '.' . DefaultStatusEnum::OFF->name     => ['en' => 'OFF', 'ru' => 'Выкл'],
+            DefaultStatusEnum::class . '.' . DefaultStatusEnum::ON->name      => ['en' => 'ON', 'ru' => 'Вкл'],
+            TicketStatusEnum::class . '.' . TicketStatusEnum::New->name       => ['en' => 'new', 'ru' => 'новый'],
+            TicketStatusEnum::class . '.' . TicketStatusEnum::WaitAdmin->name => ['en' => 'wait admin reply', 'ru' => 'ожидает ответ администратора'],
+            TicketStatusEnum::class . '.' . TicketStatusEnum::WaitUser->name  => ['en' => 'wait user reply', 'ru' => 'ожидает ответ пользователя'],
+            TicketStatusEnum::class . '.' . TicketStatusEnum::Working->name   => ['en' => 'working', 'ru' => 'в работе'],
+            TicketStatusEnum::class . '.' . TicketStatusEnum::Closed->name    => ['en' => 'closed', 'ru' => 'закрыт'],
         ];
 
         foreach ($enums as $key => $value) {

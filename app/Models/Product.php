@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Enum\DefaultStatusEnum;
+use App\Models\Scopes\ProductFreeScope;
 use App\Models\Traits\SearchTrait;
-use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Translatable\HasTranslations;
 
@@ -25,8 +26,6 @@ use Spatie\Translatable\HasTranslations;
  * @property string                                                                     $slug
  * @property string|null                                                                $logo
  * @property int                                                                        $sort
- * @property string                                                                     $price
- * @property string|null                                                                $old_price
  * @property int                                                                        $multiplicity
  * @property int|null                                                                   $export_system_product_id
  * @property DefaultStatusEnum                                                          $status
@@ -34,6 +33,7 @@ use Spatie\Translatable\HasTranslations;
  * @property string|null                                                                $name_ru
  * @property string|null                                                                $short_description_en
  * @property string|null                                                                $short_description_ru
+ * @property bool                                                                       $is_free
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttributeValue[] $attributes
  * @property-read int|null                                                              $attributes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[]       $categories
@@ -42,7 +42,6 @@ use Spatie\Translatable\HasTranslations;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Site[]           $sites
  * @property-read int|null                                                              $sites_count
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
- * @method static Builder|Product forSite(\App\Models\Site $site)
  * @method static Builder|Product newModelQuery()
  * @method static Builder|Product newQuery()
  * @method static Builder|Product query()
@@ -51,13 +50,12 @@ use Spatie\Translatable\HasTranslations;
  * @method static Builder|Product whereDescription($value)
  * @method static Builder|Product whereExportSystemProductId($value)
  * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereIsFree($value)
  * @method static Builder|Product whereLogo($value)
  * @method static Builder|Product whereMultiplicity($value)
  * @method static Builder|Product whereName($value)
  * @method static Builder|Product whereNameEn($value)
  * @method static Builder|Product whereNameRu($value)
- * @method static Builder|Product whereOldPrice($value)
- * @method static Builder|Product wherePrice($value)
  * @method static Builder|Product whereShortDescription($value)
  * @method static Builder|Product whereShortDescriptionEn($value)
  * @method static Builder|Product whereShortDescriptionRu($value)
@@ -74,13 +72,20 @@ class Product extends Model
     public array $translatable = ['name', 'short_description', 'description'];
 
     protected array $searchFields = [
-        'name' => 'like',
-        'slug' => 'like',
+        'name'    => 'like',
+        'slug'    => 'like',
+        'is_free' => 'match',
     ];
 
     protected $casts = [
-        'status' => DefaultStatusEnum::class,
+        'status'  => DefaultStatusEnum::class,
+        'is_free' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ProductFreeScope());
+    }
 
     public function attributes(): MorphToMany
     {
@@ -107,8 +112,8 @@ class Product extends Model
         return $this->belongsTo(ExportSystemProduct::class);
     }
 
-    public function price($siteId = null)
+    public function price($siteId = null): HasOne
     {
-        return $this->hasOne(ProductPrice::class)->where('site_id' ,$siteId);
+        return $this->hasOne(ProductPrice::class)->where('site_id', $siteId);
     }
 }
