@@ -35,6 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null                                                                                $created_at
  * @property \Illuminate\Support\Carbon|null                                                                                $updated_at
  * @property int|null                                                                                                       $site_id
+ * @property int|null                                                                                                       $site_user_id
  * @property DefaultStatusEnum                                                                                              $status
  * @property-read \App\Models\UserBalance|null                                                                              $balance
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserBalanceHistory[]                                 $balanceHistory
@@ -50,7 +51,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null                                                                                                  $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                           $tokens
  * @property-read int|null                                                                                                  $tokens_count
- * @method static UserFactory factory(...$parameters)
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
@@ -65,6 +66,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|User whereProfilePhotoPath($value)
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereSiteId($value)
+ * @method static Builder|User whereSiteUserId($value)
  * @method static Builder|User whereStatus($value)
  * @method static Builder|User whereTwoFactorConfirmedAt($value)
  * @method static Builder|User whereTwoFactorRecoveryCodes($value)

@@ -22,6 +22,7 @@ class AuthController
         }
 
         $validatedData = $request->validate([
+            'user_id' => 'required|gt:0',
             'name'     => 'required|string|max:255',
             'email'    => [
                 'required',

@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->unique(['site_id', 'email']);
 
             $table->foreignId('site_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedBigInteger('site_user_id')->index()->nullable();
             $table->boolean('status')->default(true)->index();
         });
     }
