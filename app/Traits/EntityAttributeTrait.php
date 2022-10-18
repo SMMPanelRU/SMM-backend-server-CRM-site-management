@@ -57,4 +57,35 @@ trait EntityAttributeTrait
 
         }
     }
+
+    public function attributesToArray(Model $entity): array
+    {
+
+        $attributes = [];
+
+        $entityAttributes = $entity->attributes;
+
+        foreach ($entityAttributes as $entityAttribute) {
+            $value = null;
+            if (!$entityAttribute->attribute->is_translatable && $entityAttribute->attribute_predefined_value_id === null) {
+                $value = $entityAttribute->non_translatable_value;
+            } elseif ($entityAttribute->attribute_predefined_value_id ?? null) {
+                $value = $entityAttribute->attribute->predefinedValues->where('id', $entityAttribute->attribute_predefined_value_id)->first()->value;
+            } elseif ($entityAttribute->attribute->is_translatable) {
+                if ($entityAttribute->value ?? null) {
+                    $value = $entityAttribute->value;
+                }
+                if ($entityAttribute->text_value ?? null) {
+                    $value = $entityAttribute->text_value;
+                }
+            }
+
+            $attributes[$entityAttribute->attribute->slug] = [
+                'name'  => $entityAttribute->attribute->name,
+                'value' => $value,
+            ];
+        }
+
+        return $attributes;
+    }
 }

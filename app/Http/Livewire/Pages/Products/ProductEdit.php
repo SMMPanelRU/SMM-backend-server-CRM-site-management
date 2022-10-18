@@ -8,9 +8,11 @@ use App\Models\Category;
 use App\Models\ExportSystem;
 use App\Models\ExportSystemProduct;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\Site;
 use App\Traits\EntityAttributeTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,15 +24,16 @@ class ProductEdit extends Component
     public ?Product $product       = null;
     public bool     $deleteLoading = false;
 
-    public Collection $allCategories;
-    public Collection $allAttributes;
-    public Collection $allSites;
-    public array      $attr         = [];
-    public array      $cats         = [];
-    public array      $sites        = [];
-    public ?int       $exportSystem = null;
-    public Collection $allExportSystems;
+    public Collection  $allCategories;
+    public Collection  $allAttributes;
+    public Collection  $allSites;
+    public array       $attr                 = [];
+    public array       $cats                 = [];
+    public array       $sites                = [];
+    public ?int        $exportSystem         = null;
+    public Collection  $allExportSystems;
     public ?Collection $exportSystemProducts = null;
+    public array       $prices               = [];
 
     public function rules()
     {
@@ -45,15 +48,14 @@ class ProductEdit extends Component
             'product.description.en' => 'required',
             'product.description.ru' => 'required',
 
-            'product.slug'      => 'required',
-            'product.sort'      => 'required|numeric',
-            'product.price'     => 'required|numeric',
-            'product.old_price' => 'sometimes|numeric',
+            'product.slug'                     => 'required',
+            'product.sort'                     => 'required|numeric',
             'product.export_system_product_id' => 'sometimes|numeric',
 
-            'cats.*'  => "sometimes",
-            'attr.*'  => 'sometimes',
-            'sites.*' => 'sometimes',
+            'cats.*'   => "sometimes",
+            'attr.*'   => 'sometimes',
+            'sites.*'  => 'sometimes',
+            'prices.*' => 'sometimes',
         ];
     }
 
@@ -67,11 +69,6 @@ class ProductEdit extends Component
         if (!$this->product) {
             $this->product = new Product();
         }
-    }
-
-    public function mount($product = null)
-    {
-
     }
 
     public function render()
@@ -99,8 +96,15 @@ class ProductEdit extends Component
             $this->sites = $product->sites()->pluck('site_id')->toArray();
 
             if ($product->export_system_product_id ?? null) {
-                $this->exportSystem = $product->exportSystem->id;
+                $this->exportSystem         = $product->exportSystem->id;
                 $this->exportSystemProducts = $product->exportSystem->exportSystemProducts()->active()->get();
+            }
+
+            foreach ($this->allSites as $site) {
+                $productPrice = $this->product->price($site->id)->first();
+                if ($productPrice ?? null) {
+                    $this->prices[$site->id] = $productPrice;
+                }
             }
 
         }
@@ -112,14 +116,16 @@ class ProductEdit extends Component
     {
 
         if ((int) $value === 0) {
-            $this->exportSystem = null;
+            $this->exportSystem         = null;
             $this->exportSystemProducts = null;
+
             return false;
         }
 
         $exportSystem = ExportSystem::find($value);
         if ($exportSystem === null) {
             $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => __('errors.Export system not found')]);
+
             return false;
         }
 
@@ -131,9 +137,32 @@ class ProductEdit extends Component
     public function submit(): bool
     {
 
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => $e->getMessage()]);
+
+            return false;
+        }
 
         $this->product->save();
+
+        if (!empty($this->prices)) {
+            foreach ($this->prices as $siteId => $price) {
+                if (empty($price['price'])) {
+                    continue;
+                }
+
+                if (empty($price['old_price'])) {
+                    $price['old_price'] = null;
+                }
+
+                ProductPrice::updateOrCreate(
+                    ['product_id' => $this->product->id, 'site_id' => $siteId],
+                    ['price' => $price['price'], 'old_price' => $price['old_price']]
+                );
+            }
+        }
 
         if (!empty($this->attr)) {
             $this->updateEntityAttributes($this->product, $this->attr);

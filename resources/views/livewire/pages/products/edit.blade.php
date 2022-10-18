@@ -19,9 +19,6 @@
                 <x-forms.row model="product.slug" description="{{__('fields.slug')}}" type="input"/>
                 <x-forms.row model="product.sort" description="{{__('fields.sort')}}" type="input"/>
 
-                    <x-forms.row model="product.price" description="{{__('fields.price')}}" type="input"/>
-                    <x-forms.row model="product.old_price" description="{{__('fields.old_price')}}" type="input"/>
-
                 <x-forms.row model="product.short_description.en" description="{{__('fields.short_description')}} en"
                              type="textarea"/>
                 <x-forms.row model="product.short_description.ru" description="{{__('fields.short_description')}} ru"
@@ -76,6 +73,32 @@
                     </td>
                 </tr>
 
+                <tr>
+                    <th class="wd-10p">
+                        {{__('prices')}}
+                    </th>
+                    <td class="align-middle">
+                        <table class="table table-hover table-striped">
+                            <tr>
+                                <td>{{__('site')}}</td>
+                                <td>{{__('fields.price')}}</td>
+                                <td>{{__('fields.old_price')}}</td>
+                            </tr>
+                            @foreach($allSites as $site)
+                                <tr>
+                                    <td>{{$site->name}}</td>
+                                    <td>
+                                        <x-forms.input type="text" model="prices.{{$site->id}}.price" />
+                                    </td>
+                                    <td>
+                                        <x-forms.input type="text" model="prices.{{$site->id}}.old_price" />
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </td>
+                </tr>
+
 
             </table>
         </div>
@@ -105,7 +128,8 @@
                     <tr>
                         <th>{{__('form.export_system_product')}}</th>
                         <td>
-                            <select class="form-control-sm form-control" wire:model.defer="product.export_system_product_id">
+                            <select class="form-control-sm form-control"
+                                    wire:model.defer="product.export_system_product_id">
                                 <option value="">{{__('fields.choose')}}</option>
                                 @foreach($exportSystemProducts as $exportSystemProduct)
                                     <option value="{{$exportSystemProduct->id}}">{{$exportSystemProduct->name}}</option>

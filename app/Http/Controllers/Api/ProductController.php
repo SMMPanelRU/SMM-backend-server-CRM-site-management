@@ -16,8 +16,7 @@ class ProductController
         $site = app(SiteContainer::class)->getSite();
 
         return ProductResource::collection(
-//            Product::query()->forSite($site)->get()
-            $site->products()->get()
+            $site->products()->orderBy('sort')->get()
         );
     }
 }
