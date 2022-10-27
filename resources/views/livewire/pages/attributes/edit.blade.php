@@ -58,7 +58,7 @@
                                 wire:loading.attr="disabled">
                             <option>{{__('fields.choose')}}</option>
                             @foreach(\App\Enum\DefaultStatusEnum::cases() as $status)
-                                <option value="{!! ($status->value === 1) ? 'true' : 'false' !!}">{{$status->label()}}</option>
+                                <option value="{{$status->value}}">{{$status->label()}}</option>
                             @endforeach
                         </select>
                     </td>
@@ -73,7 +73,7 @@
                                 wire:loading.attr="disabled">
                             <option>{{__('fields.choose')}}</option>
                             @foreach(\App\Enum\DefaultStatusEnum::cases() as $status)
-                                <option value="{!! ($status->value === 1) ? 'true' : 'false' !!}">{{$status->label()}}</option>
+                                <option value="{{$status->value}}">{{$status->label()}}</option>
                             @endforeach
                         </select>
                     </td>

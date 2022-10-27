@@ -6,6 +6,7 @@ use App\Models\Attribute;
 use App\Models\Faq;
 use App\Models\Site;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class AttributeEdit extends Component
@@ -24,8 +25,8 @@ class AttributeEdit extends Component
             'attribute.type'            => 'required|numeric',
             'attribute.slug'            => 'required',
             'attribute.entity_type'     => 'required',
-            'attribute.is_searchable'   => 'required|numeric',
-            'attribute.is_translatable' => 'required|numeric',
+            'attribute.is_searchable'   => 'required|boolean',
+            'attribute.is_translatable' => 'required|boolean',
         ];
     }
 
@@ -58,7 +59,13 @@ class AttributeEdit extends Component
     public function submit(): bool
     {
 
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => $e->getMessage()]);
+
+            return false;
+        }
 
         $this->attribute->save();
 

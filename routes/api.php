@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
@@ -25,6 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
 
     Route::get('/products/{product?}', [ProductController::class, 'index'])->name('products');
+
+    Route::get('/categories/{category?}', [CategoryController::class, 'index'])->name('categories');
 
 });
 

@@ -52,8 +52,6 @@ class Attribute extends Model
 
     protected $casts = [
         'type'       => AttributeTypesEnum::class,
-        'is_searchable' => 'bool',
-        'is_translatable' => 'bool',
     ];
 
     protected array $searchFields = [
