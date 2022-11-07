@@ -14,6 +14,7 @@ class ProductResource extends JsonResource
 
     private int   $id;
     private mixed $name;
+    private mixed $slug;
     private mixed $description;
     private mixed $short_description;
     private int   $sort;
@@ -32,6 +33,7 @@ class ProductResource extends JsonResource
 
         $this->id                = $product->id;
         $this->name              = $product->name;
+        $this->slug              = $product->slug;
         $this->description       = $product->description;
         $this->short_description = $product->short_description;
         $this->sort              = $product->sort;
@@ -47,6 +49,7 @@ class ProductResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->name,
+            'slug'              => $this->slug,
             'description'       => $this->description,
             'short_description' => $this->short_description,
             'sort'              => $this->sort,
