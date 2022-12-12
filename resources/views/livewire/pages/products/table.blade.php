@@ -61,12 +61,6 @@
                     <th class="align-middle">
                         {{__('sort')}}
                     </th>
-                    <th class="align-middle">
-                        {{__('price')}}
-                    </th>
-                    <th class="align-middle">
-                        {{__('old price')}}
-                    </th>
                     <th></th>
                 </tr>
                 </thead>

@@ -6,14 +6,6 @@
         <input type="text" wire:model.lazy="product.sort" class="form-control form-control-sm"
                wire:loading.attr="disabled">
     </td>
-    <td>
-        <input type="text" wire:model.lazy="product.price" class="form-control form-control-sm"
-               wire:loading.attr="disabled">
-    </td>
-    <td>
-        <input type="text" wire:model.lazy="product.old_price" class="form-control form-control-sm"
-               wire:loading.attr="disabled">
-    </td>
 
     <td>
         <a href="{{ route('products.edit', ['product'=>$product->id]) }}" class="me-1">

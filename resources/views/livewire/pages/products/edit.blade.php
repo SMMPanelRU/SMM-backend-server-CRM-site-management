@@ -17,6 +17,7 @@
                 <x-forms.row model="product.name.en" description="{{__('fields.name')}} en" type="input"/>
                 <x-forms.row model="product.name.ru" description="{{__('fields.name')}} ru" type="input"/>
                 <x-forms.row model="product.slug" description="{{__('fields.slug')}}" type="input"/>
+                <x-forms.row model="product.multiplicity" description="{{__('fields.multiplicity')}}" type="input"/>
                 <x-forms.row model="product.sort" description="{{__('fields.sort')}}" type="input"/>
 
                 <x-forms.row model="product.short_description.en" description="{{__('fields.short_description')}} en"
@@ -88,10 +89,10 @@
                                 <tr>
                                     <td>{{$site->name}}</td>
                                     <td>
-                                        <x-forms.input type="text" model="prices.{{$site->id}}.price" />
+                                        <x-forms.input type="text" model="prices.{{$site->id}}.price"/>
                                     </td>
                                     <td>
-                                        <x-forms.input type="text" model="prices.{{$site->id}}.old_price" />
+                                        <x-forms.input type="text" model="prices.{{$site->id}}.old_price"/>
                                     </td>
                                 </tr>
                             @endforeach
@@ -108,12 +109,12 @@
     <div class="row mt-4">
 
         <div class="col-sm-6">
-            <h2>{{__('form.export')}}</h2>
+            <h2>{{__('forms.export')}}</h2>
             <table class="table table-hover table-striped ">
 
 
                 <tr>
-                    <th>{{__('form.export_system')}}</th>
+                    <th>{{__('forms.export_system')}}</th>
                     <td>
                         <select class="form-control-sm form-control" wire:model="exportSystem">
                             <option value="0">{{__('fields.choose')}}</option>
@@ -126,7 +127,7 @@
 
                 @if ($exportSystemProducts ?? null)
                     <tr>
-                        <th>{{__('form.export_system_product')}}</th>
+                        <th>{{__('forms.export_system_product')}}</th>
                         <td>
                             <select class="form-control-sm form-control"
                                     wire:model.defer="product.export_system_product_id">
@@ -140,6 +141,55 @@
                 @endif
 
 
+            </table>
+
+            @if ($product->id ?? null)
+                <h2>{{__('forms.discounts')}}</h2>
+                <table class="table table-hover table-striped ">
+
+                    <thead>
+                    <tr>
+                        <th>{{__('text.count')}}</th>
+                        <th>{{__('text.discount')}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($discounts['existed'] as $discount)
+                        <tr>
+                            <td>
+                                <x-forms.input type="text" model="discounts.existed.{{$discount['id']}}.count"/>
+                            </td>
+                            <td>
+                                <x-forms.input type="text" model="discounts.existed.{{$discount['id']}}.discount"/>
+                            </td>
+                        </tr>
+                    @endforeach
+                    @foreach($discounts['new'] as $discount)
+                        <tr>
+                            <td>
+                                <x-forms.input type="text" model="discounts.new.{{$loop->index}}.count"/>
+                            </td>
+                            <td>
+                                <x-forms.input type="text" model="discounts.new.{{$loop->index}}.discount"/>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <button wire:click="addEmptyDiscount" class="btn btn-primary me-2" type="button"
+                                    wire:loading.attr="disabled">{{ucfirst(__('text.add'))}}</button>
+                        </th>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            @endif
+
+            <table class="table table-hover table-striped ">
                 <tr>
                     <th colspan="2">
                         @if ($product->id ?? null)

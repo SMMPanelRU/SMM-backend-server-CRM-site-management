@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Translatable\HasTranslations;
@@ -115,5 +116,10 @@ class Product extends Model
     public function price($siteId = null): HasOne
     {
         return $this->hasOne(ProductPrice::class)->where('site_id', $siteId);
+    }
+
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(DiscountProduct::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pages\Products;
 use App\Enum\Attributes\AttributeTypesEnum;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\DiscountProduct;
 use App\Models\ExportSystem;
 use App\Models\ExportSystemProduct;
 use App\Models\Product;
@@ -16,27 +17,26 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductEdit extends Component
-{
+class ProductEdit extends Component {
 
     use WithFileUploads, EntityAttributeTrait;
 
-    public ?Product $product       = null;
-    public bool     $deleteLoading = false;
+    public ?Product $product = null;
+    public bool $deleteLoading = false;
 
-    public Collection  $allCategories;
-    public Collection  $allAttributes;
-    public Collection  $allSites;
-    public array       $attr                 = [];
-    public array       $cats                 = [];
-    public array       $sites                = [];
-    public ?int        $exportSystem         = null;
-    public Collection  $allExportSystems;
+    public Collection $allCategories;
+    public Collection $allAttributes;
+    public Collection $allSites;
+    public array $attr = [];
+    public array $cats = [];
+    public array $sites = [];
+    public ?int $exportSystem = null;
+    public Collection $allExportSystems;
     public ?Collection $exportSystemProducts = null;
-    public array       $prices               = [];
+    public array $prices = [];
+    public array $discounts = [];
 
-    public function rules()
-    {
+    public function rules() {
 
         return [
             'product.name.en' => 'required',
@@ -49,21 +49,22 @@ class ProductEdit extends Component
             'product.description.ru' => 'required',
 
             'product.slug'                     => 'required',
+            'product.multiplicity'             => 'required|numeric',
             'product.sort'                     => 'required|numeric',
             'product.export_system_product_id' => 'sometimes|numeric',
 
-            'cats.*'   => "sometimes",
-            'attr.*'   => 'sometimes',
-            'sites.*'  => 'sometimes',
-            'prices.*' => 'sometimes',
+            'cats.*'      => "sometimes",
+            'attr.*'      => 'sometimes',
+            'sites.*'     => 'sometimes',
+            'prices.*'    => 'sometimes',
+            'discounts.*' => 'sometimes',
         ];
     }
 
-    public function boot()
-    {
-        $this->allCategories    = Category::query()->get();
-        $this->allSites         = Site::query()->get();
-        $this->allAttributes    = Attribute::query()->where('entity_type', Product::class)->get();
+    public function boot() {
+        $this->allCategories = Category::query()->get();
+        $this->allSites = Site::query()->get();
+        $this->allAttributes = Attribute::query()->where('entity_type', Product::class)->get();
         $this->allExportSystems = ExportSystem::query()->active()->get();
 
         if (!$this->product) {
@@ -71,8 +72,7 @@ class ProductEdit extends Component
         }
     }
 
-    public function render()
-    {
+    public function render() {
 
         if ($this->product->id ?? null) {
             $product = Product::query()->with(['attributes', 'exportSystemProduct'])->find($this->product->id);
@@ -96,7 +96,7 @@ class ProductEdit extends Component
             $this->sites = $product->sites()->pluck('site_id')->toArray();
 
             if ($product->export_system_product_id ?? null) {
-                $this->exportSystem         = $product->exportSystem->id;
+                $this->exportSystem = $product->exportSystem->id;
                 $this->exportSystemProducts = $product->exportSystem->exportSystemProducts()->active()->get();
             }
 
@@ -107,16 +107,27 @@ class ProductEdit extends Component
                 }
             }
 
+            $this->discounts['existed'] = $this->product->discounts()->get()->keyBy('id')->toArray();
+
+            if (empty($this->discounts['new'])) {
+                $this->discounts['new'] = [];
+            }
         }
 
         return view('livewire.pages.products.edit');
     }
 
-    public function updatedExportSystem($value): bool
-    {
+    public function addEmptyDiscount() {
+        $this->discounts['new'][] = [
+            'count'    => 0,
+            'discount' => 0,
+        ];
+    }
 
-        if ((int) $value === 0) {
-            $this->exportSystem         = null;
+    public function updatedExportSystem($value): bool {
+
+        if ((int)$value === 0) {
+            $this->exportSystem = null;
             $this->exportSystemProducts = null;
 
             return false;
@@ -134,8 +145,7 @@ class ProductEdit extends Component
         return true;
     }
 
-    public function submit(): bool
-    {
+    public function submit(): bool {
 
         try {
             $this->validate();
@@ -164,6 +174,32 @@ class ProductEdit extends Component
             }
         }
 
+
+        foreach ($this->discounts['existed'] as $discount) {
+            $discountProduct = DiscountProduct::find($discount['id']);
+            if ($discountProduct ?? null) {
+                if ($discount['count'] > 0) {
+                    $discountProduct->count = $discount['count'];
+                    $discountProduct->discount = $discount['discount'];
+                    $discountProduct->save();
+                } else {
+                    $discountProduct->delete();
+                }
+            }
+        }
+
+        foreach ($this->discounts['new'] as $discount) {
+            if ($discount['count'] > 0) {
+                $discountProduct = new DiscountProduct();
+                $discountProduct->product()->associate($this->product);
+                $discountProduct->count = $discount['count'];
+                $discountProduct->discount = $discount['discount'];
+                $discountProduct->save();
+            }
+        }
+
+        $this->discounts['new'] = [];
+
         if (!empty($this->attr)) {
             $this->updateEntityAttributes($this->product, $this->attr);
         }
@@ -181,8 +217,7 @@ class ProductEdit extends Component
     }
 
 
-    public function delete()
-    {
+    public function delete() {
         $this->product->attributes()->delete();
 
         $this->deleteLoading = true;

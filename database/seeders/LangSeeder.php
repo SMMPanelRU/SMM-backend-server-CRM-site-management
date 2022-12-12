@@ -13,15 +13,13 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\TranslationLoader\LanguageLine;
 
-class LangSeeder extends Seeder
-{
+class LangSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
 
         LanguageLine::query()->truncate();;
 
@@ -31,8 +29,7 @@ class LangSeeder extends Seeder
 
     }
 
-    private function texts()
-    {
+    private function texts() {
         $texts = [
             'pagination'    => [
                 'show'    => ['en' => 'show', 'ru' => 'показывать'],
@@ -41,20 +38,29 @@ class LangSeeder extends Seeder
                 'of'      => ['en' => 'of', 'ru' => 'из'],
             ],
             'fields'        => [
-                'name'    => ['en' => 'name', 'ru' => 'название'],
-                'slug'    => ['en' => 'slug', 'ru' => 'код'],
-                'sort'    => ['en' => 'sort', 'ru' => 'сортировка'],
-                'logo'    => ['en' => 'logo', 'ru' => 'лого'],
-                'parent'  => ['en' => 'parent', 'ru' => 'родитель'],
-                'choose'  => ['en' => 'choose', 'ru' => 'выбрать'],
-                'handler' => ['en' => 'handler', 'ru' => 'обработчик'],
-                'status'  => ['en' => 'status', 'ru' => 'статус'],
+                'name'              => ['en' => 'name', 'ru' => 'название'],
+                'slug'              => ['en' => 'slug', 'ru' => 'код'],
+                'sort'              => ['en' => 'sort', 'ru' => 'сортировка'],
+                'logo'              => ['en' => 'logo', 'ru' => 'лого'],
+                'parent'            => ['en' => 'parent', 'ru' => 'родитель'],
+                'choose'            => ['en' => 'choose', 'ru' => 'выбрать'],
+                'handler'           => ['en' => 'handler', 'ru' => 'обработчик'],
+                'status'            => ['en' => 'status', 'ru' => 'статус'],
+                'short_description' => ['en' => 'short description', 'ru' => 'краткое описание'],
+                'description'       => ['en' => 'description', 'ru' => 'описание'],
+                'price'             => ['en' => 'price', 'ru' => 'цена'],
+                'old_price'         => ['en' => 'old price', 'ru' => 'старая цена'],
+                'multiplicity'      => ['en' => 'multiplicity', 'ru' => 'кратность'],
             ],
             'forms'         => [
                 'save'                  => ['en' => 'save', 'ru' => 'сохранить'],
                 'create'                => ['en' => 'create', 'ru' => 'создать'],
                 'delete'                => ['en' => 'delete', 'ru' => 'удалить'],
+                'export'                => ['en' => 'export', 'ru' => 'экспорт'],
+                'export_system'         => ['en' => 'export system', 'ru' => 'система экспорта'],
                 'export_system_product' => ['en' => 'export products', 'ru' => 'услуги экспорта'],
+                'attributes'            => ['en' => 'attributes', 'ru' => 'свойства'],
+                'discounts'             => ['en' => 'discounts', 'ru' => 'скидки'],
             ],
             'export_system' => [
                 'Api_key' => ['en' => 'api key', 'ru' => 'api ключ'],
@@ -71,6 +77,11 @@ class LangSeeder extends Seeder
                 'export_systems' => ['en' => 'export systems', 'ru' => 'системы экспорта'],
                 'orders'         => ['en' => 'orders', 'ru' => 'заказы'],
                 'users'          => ['en' => 'users', 'ru' => 'пользователи'],
+                'tickets'        => ['en' => 'tickets', 'ru' => 'тикеты'],
+                'count'          => ['en' => 'count', 'ru' => 'количество'],
+                'discount'       => ['en' => 'discount', 'ru' => 'скидка'],
+                'add'            => ['en' => 'add', 'ru' => 'добавить'],
+
             ],
         ];
 
@@ -87,8 +98,7 @@ class LangSeeder extends Seeder
         }
     }
 
-    private function entities()
-    {
+    private function entities() {
 
         $entities = [
             Category::class => ['en' => 'category', 'ru' => 'категория'],
@@ -109,8 +119,7 @@ class LangSeeder extends Seeder
 
     }
 
-    private function enums()
-    {
+    private function enums() {
 
         $enums = [
             DefaultStatusEnum::class . '.' . DefaultStatusEnum::OFF->name     => ['en' => 'OFF', 'ru' => 'Выкл'],
