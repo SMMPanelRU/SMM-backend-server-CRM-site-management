@@ -46,6 +46,26 @@ class AttributeSeeder extends Seeder
                     'searchable' => false,
                     'translatable' => true,
                 ],
+                'category_title_description' => [
+                    'type'       => AttributeTypesEnum::Textarea,
+                    'name'       => [
+                        'en' => 'category_title_description',
+                        'ru' => 'category_title_description',
+                    ],
+                    'slug'       => 'category_title_description',
+                    'searchable' => false,
+                    'translatable' => true,
+                ],
+                'category_description' => [
+                    'type'       => AttributeTypesEnum::Textarea,
+                    'name'       => [
+                        'en' => 'category_description',
+                        'ru' => 'category_description',
+                    ],
+                    'slug'       => 'category_description',
+                    'searchable' => false,
+                    'translatable' => true,
+                ],
             ],
             Product::class => [
                 'meta_title'       => [
@@ -125,14 +145,16 @@ class AttributeSeeder extends Seeder
 
         foreach ($attributes as $entity => $data) {
             foreach ($data as $key => $values) {
-                $attribute              = new Attribute();
-                $attribute->name        = $values['name'];
-                $attribute->type        = $values['type'];
-                $attribute->slug        = $values['slug'];
-                $attribute->entity_type = $entity;
-                $attribute->is_searchable  = $values['searchable'];
-                $attribute->is_translatable  = $values['translatable'];
-                $attribute->save();
+                if (!Attribute::query()->where(['slug'=> $values['slug']])->exists()) {
+                    $attribute              = new Attribute();
+                    $attribute->name        = $values['name'];
+                    $attribute->type        = $values['type'];
+                    $attribute->slug        = $values['slug'];
+                    $attribute->entity_type = $entity;
+                    $attribute->is_searchable  = $values['searchable'];
+                    $attribute->is_translatable  = $values['translatable'];
+                    $attribute->save();
+                }
             }
 
         }
