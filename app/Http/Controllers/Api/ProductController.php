@@ -15,8 +15,13 @@ class ProductController
 
         $site = app(SiteContainer::class)->getSite();
 
+        if ($product->id ?? null) {
+            $products = $site->products()->where(['products.id'=>$product->id])->orderBy('sort')->get();
+        } else {
+            $products = $site->products()->orderBy('sort')->get();
+        }
         return ProductResource::collection(
-            $site->products()->orderBy('sort')->get()
+            $products
         );
     }
 }

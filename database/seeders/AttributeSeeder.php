@@ -117,7 +117,17 @@ class AttributeSeeder extends Seeder
                     'slug'       => 'max_count',
                     'searchable' => false,
                     'translatable' => false,
-                ]
+                ],
+                'cart_link_description' => [
+                    'type'       => AttributeTypesEnum::Text,
+                    'name'       => [
+                        'en' => 'Cart link description',
+                        'ru' => 'Описание ссылки в корзине',
+                    ],
+                    'slug'       => 'cart_link_description',
+                    'searchable' => false,
+                    'translatable' => true,
+                ],
             ],
             Page::class => [
                 'meta_title'       => [
