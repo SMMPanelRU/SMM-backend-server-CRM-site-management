@@ -21,6 +21,7 @@ use Spatie\Translatable\HasTranslations;
  * @property array                                                            $name
  * @property DefaultStatusEnum                                                $status
  * @property string                                                           $slug
+ * @property int                                                              $sort
  * @property string|null                                                      $logo
  * @property string|null                                                      $handler
  * @property array|null                                                       $settings
@@ -47,8 +48,7 @@ use Spatie\Translatable\HasTranslations;
  * @method static Builder|PaymentSystem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class PaymentSystem extends Model
-{
+class PaymentSystem extends Model {
     use HasFactory, HasTranslations, SearchTrait;
 
     public array $translatable = ['name'];
@@ -63,20 +63,17 @@ class PaymentSystem extends Model
         'settings' => 'array',
     ];
 
-    public function scopeActive($query)
-    {
+    public function scopeActive($query) {
         return $query->where(['status' => DefaultStatusEnum::ON]);
     }
 
-    public function scopeForSite(Builder $query, Site $site): Builder
-    {
+    public function scopeForSite(Builder $query, Site $site): Builder {
         return $query->whereHas('sites', function ($query) use ($site) {
             $query->where('product_sites.site_id', $site->id);
         });
     }
 
-    public function sites(): MorphToMany
-    {
+    public function sites(): MorphToMany {
         return $this->morphToMany(Site::class, 'entity_model');
     }
 

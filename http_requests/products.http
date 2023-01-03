@@ -5,3 +5,8 @@ X-Client-Token: {{auth_token}}
 
 GET {{host}}/api/products/1
 X-Client-Token: {{auth_token}}
+
+###
+
+GET {{host}}/api/products/?category_id=20
+X-Client-Token: {{auth_token}}

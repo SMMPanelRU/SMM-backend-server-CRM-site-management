@@ -135,7 +135,22 @@ class CategorySeeder extends Seeder
                     'ru' => 'Вконтакте',
                 ],
                 'slug'       => 'vkontakte',
-                'categories' => [],
+                'categories' => [
+                    'Subscribers' => [
+                        'name' => [
+                            'en' => 'Subscribers',
+                            'ru' => 'Подписчики',
+                        ],
+                        'slug' => 'vkontakte-subscribers',
+                    ],
+                    'Likes' => [
+                        'name' => [
+                            'en' => 'Likes',
+                            'ru' => 'Лайки',
+                        ],
+                        'slug' => 'vkontakte-likes',
+                    ],
+                ],
             ],
             'Youtube'   => [
                 'name'       => [

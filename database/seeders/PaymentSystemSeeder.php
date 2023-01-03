@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enum\DefaultStatusEnum;
 use App\Models\ExportSystem;
 use App\Models\PaymentSystem;
+use App\Models\Site;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,16 @@ class PaymentSystemSeeder extends Seeder
     {
 
         $paymentSystems = [
+            'Balance' => [
+                'name'     => [
+                    'en' => 'Balance',
+                    'ru' => 'Баланс',
+                ],
+                'status'   => DefaultStatusEnum::ON,
+                'slug'     => 'balance',
+                'handler'  => 'Balance',
+                'settings' => [],
+            ],
             'TegroMoney' => [
                 'name'     => [
                     'en' => 'TegroMoney',
@@ -53,6 +64,9 @@ class PaymentSystemSeeder extends Seeder
             }
 
             $paymentSystem->save();
+
+            $paymentSystem->sites()->attach(Site::query()->pluck('id'));
+
         }
 
     }

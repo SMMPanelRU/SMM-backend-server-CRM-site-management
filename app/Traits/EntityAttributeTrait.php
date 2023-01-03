@@ -65,6 +65,10 @@ trait EntityAttributeTrait
 
         $entityAttributes = $entity->attributes;
 
+        if ($entityAttributes === null) {
+            return [];
+        }
+
         foreach ($entityAttributes as $entityAttribute) {
             $value = null;
             if (!$entityAttribute->attribute->is_translatable && $entityAttribute->attribute_predefined_value_id === null) {

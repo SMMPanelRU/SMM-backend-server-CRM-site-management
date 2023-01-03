@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('slug')->index();
             $table->string('logo')->nullable();
 
+            $table->integer('sort')->default(0);
+
             $table->string('handler')->index()->nullable();
 
             $table->json('settings')->nullable();

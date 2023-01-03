@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PaymentSystemController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
     Route::get('/products/{product?}', [ProductController::class, 'index'])->name('products');
 
     Route::get('/categories/{category?}', [CategoryController::class, 'index'])->name('categories');
+
+    Route::get('/payment_systems/{paymentSystem?}', [PaymentSystemController::class, 'index'])->name('payment_systems');
 
 });
 
