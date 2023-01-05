@@ -47,6 +47,8 @@ use Spatie\Translatable\HasTranslations;
  * @method static Builder|PaymentSystem whereStatus($value)
  * @method static Builder|PaymentSystem whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\PaymentSystemFactory factory(...$parameters)
+ * @method static Builder|PaymentSystem whereSort($value)
  */
 class PaymentSystem extends Model {
     use HasFactory, HasTranslations, SearchTrait;

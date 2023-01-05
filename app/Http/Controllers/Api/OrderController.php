@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Actions\Order\CreateOrderAction;
 use App\Actions\Order\OrderDiscountAction;
 use App\Actions\Order\OrderFillExportSystemAction;
+use App\Actions\Order\ProductDiscountAction;
 use App\Actions\Order\ValidateOrderAction;
 use App\Enum\Orders\OrderStatusEnum;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,7 @@ use App\Services\SiteContainer;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 class OrderController extends Controller
@@ -52,11 +54,13 @@ class OrderController extends Controller
         app(Pipeline::class)
             ->send($orderParameters)
             ->through([
+                ProductDiscountAction::class,
                 OrderDiscountAction::class,
                 OrderFillExportSystemAction::class,
                 CreateOrderAction::class,
             ])
             ->thenReturn();
+
 
         $order = new Order();
         $order->user()->associate($orderParameters->getUser());
@@ -78,6 +82,20 @@ class OrderController extends Controller
             ];
 
             $order->products()->forceCreate($product);
+
+            $productDiscounts = $productParameters->getDiscounts();
+
+            if ($productDiscounts ?? null) {
+                foreach ($productDiscounts as $productDiscount) {
+                    $discount = [
+                        'order_id'=>$order->id,
+                        'product_id'=>$productParameters->getProduct()->id,
+                        'entity_type'=>$productDiscount['entity_type'],
+                        'entity_id'=>$productDiscount['entity_id'],
+                    ];
+                    $order->discounts()->forceCreate($discount);
+                }
+            }
         }
 
         foreach ($orderParameters->getDetails() as $orderDetailParameters) {

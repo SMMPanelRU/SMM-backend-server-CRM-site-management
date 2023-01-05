@@ -10,13 +10,14 @@ use Illuminate\Support\Collection;
 
 class OrderParameters
 {
-    private User                   $user;
-    private Site                   $site;
-    private PaymentSystem          $paymentSystem;
-    private OrderStatusEnum        $status;
-    private float                  $amount;
-    private float                  $discount;
-    private Collection   $items;
+    private User $user;
+    private Site $site;
+    private PaymentSystem $paymentSystem;
+    private OrderStatusEnum $status;
+    private float $amount;
+    private float $discount;
+    private ?Collection $discounts = null;
+    private Collection $items;
     private array $details;
 
     public function getUser(): User
@@ -115,6 +116,27 @@ class OrderParameters
         $this->details = $details;
 
         return $this;
+    }
+
+    public function addDiscount($entity): OrderParameters
+    {
+
+        if ($this->discounts === null) {
+            $this->discounts = new Collection();
+        }
+
+        $this->discounts->add([
+            'entity' => $entity,
+            'entity_type' => get_class($entity),
+            'entity_id' => $entity->getKey(),
+        ]);
+
+        return $this;
+    }
+
+    public function getDiscounts(): ?Collection
+    {
+        return $this->discounts;
     }
 
 

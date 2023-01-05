@@ -65,6 +65,8 @@ use Spatie\Translatable\HasTranslations;
  * @method static Builder|Product whereStatus($value)
  * @method static Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DiscountProduct[] $discounts
+ * @property-read int|null $discounts_count
  */
 class Product extends Model
 {

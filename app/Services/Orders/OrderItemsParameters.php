@@ -6,6 +6,7 @@ use App\Models\ExportSystem;
 use App\Models\ExportSystemProduct;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Collection;
 
 class OrderItemsParameters
 {
@@ -13,6 +14,7 @@ class OrderItemsParameters
     private Product $product;
     private int                 $count;
     private ExportSystemProduct $exportSystemProduct;
+    private ?Collection $discounts = null;
 
 
     public function getOrder(): Order
@@ -69,4 +71,24 @@ class OrderItemsParameters
     }
 
 
+    public function addDiscount($entity): OrderItemsParameters
+    {
+
+        if ($this->discounts === null) {
+            $this->discounts = new Collection();
+        }
+
+        $this->discounts->add([
+            'entity' => $entity,
+            'entity_type' => get_class($entity),
+            'entity_id' => $entity->getKey(),
+        ]);
+
+        return $this;
+    }
+
+    public function getDiscounts(): ?Collection
+    {
+        return $this->discounts;
+    }
 }

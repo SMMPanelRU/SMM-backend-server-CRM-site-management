@@ -15,7 +15,6 @@ class OrderFillExportSystemAction
             /* @var \App\Services\Orders\OrderItemsParameters $item */
             $item->setExportSystemProduct(ExportSystemProduct::query()->find(1));
         }
-        $orderParameters->setDiscount(0);
 
         return $next($orderParameters);
     }

@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountProduct whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountProduct whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Product $product
+ * @method static \Database\Factories\DiscountProductFactory factory(...$parameters)
  */
 class DiscountProduct extends Model {
     use HasFactory;

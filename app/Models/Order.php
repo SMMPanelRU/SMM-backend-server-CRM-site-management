@@ -43,6 +43,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $products
  * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDiscount[] $discounts
+ * @property-read int|null $discounts_count
  */
 class Order extends Model
 {
@@ -80,5 +82,10 @@ class Order extends Model
     public function products(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(OrderDiscount::class);
     }
 }
