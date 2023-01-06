@@ -5,8 +5,11 @@ namespace App\Services\PaymentSystems;
 use App\Exceptions\UndefinedHandlerException;
 use App\Exceptions\UndefinedHandlerInstanceException;
 use App\Exceptions\UndefinedHandlerSettingsException;
+use App\Models\Order;
 use App\Models\PaymentSystem;
+use App\Models\User;
 use GuzzleHttp\Client;
+use PHPUnit\Util\Exception;
 
 class BasePaymentSystem
 {
@@ -17,10 +20,12 @@ class BasePaymentSystem
     public array         $settings;
     protected Client     $client;
     protected string     $apiUrl      = '';
+    public static bool $isNoFormPayment = false;
 
     public function getHandlers(): array
     {
         $handlers = [];
+
         foreach (config('payment_systems') as $handler) {
             $handlers[$handler::$name] = $handler::$description;
         }
@@ -75,5 +80,17 @@ class BasePaymentSystem
     {
         return $instance->params();
     }
+
+    public function paymentForm(Order $order): string
+    {
+        return '';
+    }
+
+    public function canPay(User $user, float $amount): bool {
+        return false;
+    }
+
+    public function payForOrder(Order $order): void
+    {}
 
 }

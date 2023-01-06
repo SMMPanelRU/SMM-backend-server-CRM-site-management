@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 
-            $table->decimal('balance')->default(0);
+            $table->decimal('balance', 20)->default(0);
         });
     }
 

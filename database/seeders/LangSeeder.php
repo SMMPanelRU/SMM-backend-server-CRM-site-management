@@ -66,6 +66,9 @@ class LangSeeder extends Seeder {
                 'Api_key' => ['en' => 'api key', 'ru' => 'api ключ'],
                 'balance' => ['en' => 'balance', 'ru' => 'Баланс'],
             ],
+            'payment_system' => [
+                'disabled' => ['en' => 'Payment system disabled', 'ru' => 'Платежная система отключена'],
+            ],
             'text'          => [
                 'products'       => ['en' => 'products', 'ru' => 'товары'],
                 'settings'       => ['en' => 'settings', 'ru' => 'настройки'],

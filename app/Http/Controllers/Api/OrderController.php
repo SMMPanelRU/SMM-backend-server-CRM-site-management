@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Order\CheckPaymentMethodAction;
 use App\Actions\Order\CreateOrderAction;
 use App\Actions\Order\OrderDiscountAction;
 use App\Actions\Order\OrderFillExportSystemAction;
@@ -16,6 +17,7 @@ use App\Models\PaymentSystem;
 use App\Services\Orders\OrderDetailsParameters;
 use App\Services\Orders\OrderItemsParameters;
 use App\Services\Orders\OrderParameters;
+use App\Services\PaymentSystems\BasePaymentSystem;
 use App\Services\SiteContainer;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -51,15 +53,22 @@ class OrderController extends Controller
 
         $orderParameters->setDetails([$details]);
 
-        app(Pipeline::class)
-            ->send($orderParameters)
-            ->through([
-                ProductDiscountAction::class,
-                OrderDiscountAction::class,
-                OrderFillExportSystemAction::class,
-                CreateOrderAction::class,
-            ])
-            ->thenReturn();
+        try {
+            app(Pipeline::class)
+                ->send($orderParameters)
+                ->through([
+                    ProductDiscountAction::class,
+                    OrderDiscountAction::class,
+                    OrderFillExportSystemAction::class,
+                    CheckPaymentMethodAction::class,
+                    CreateOrderAction::class,
+                ])
+                ->thenReturn();
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 400);
+        }
 
 
         $order = new Order();
@@ -108,6 +117,23 @@ class OrderController extends Controller
             ];
 
             $order->details()->forceCreate($detail);
+        }
+
+        $paymentSystem = $orderParameters->getPaymentSystem();
+
+        try {
+            $paymentHandler = (new BasePaymentSystem())->getInstance($paymentSystem->handler);
+        } catch (\Throwable $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        if ($paymentHandler::$isNoFormPayment === true) {
+            $paymentHandler->payForOrder($order);
+
+            $order->status = OrderStatusEnum::Paid;
+            $order->save();
+        } else {
+            $order->paymentForm = $paymentHandler->paymentForm($order);
         }
 
         return new OrderResource($order);

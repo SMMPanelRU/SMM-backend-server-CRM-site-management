@@ -10,12 +10,17 @@ class OrderResource extends JsonResource
 {
 
     private int $id;
+    private ?string $paymentForm = '';
 
     public function __construct(Order $order)
     {
         parent::__construct($order);
 
         $this->id = $order->id;
+
+        if ($order->paymentForm ?? null) {
+            $this->paymentForm = $order->paymentForm;
+        }
     }
 
     public function toArray($request): array
@@ -23,6 +28,7 @@ class OrderResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'paymentForm'=>$this->paymentForm,
         ];
     }
 }

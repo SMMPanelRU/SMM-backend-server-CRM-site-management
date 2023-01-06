@@ -28,7 +28,7 @@ class OrderDiscountAction
                 continue;
             }
 
-            $price = $productPrice->price;
+            $price = $productPrice->price * $item->getCount();
 
             $orderAmount += $price;
 

@@ -50,6 +50,8 @@ class Order extends Model
 {
     use HasFactory, SearchTrait;
 
+    public string $paymentForm;
+
     protected array $searchFields = [
         'user_id' => 'match',
         'site_id' => 'match',
@@ -87,5 +89,10 @@ class Order extends Model
     public function discounts(): HasMany
     {
         return $this->hasMany(OrderDiscount::class);
+    }
+
+    public function paymentAmount(): float
+    {
+        return $this->amount - $this->discount;
     }
 }

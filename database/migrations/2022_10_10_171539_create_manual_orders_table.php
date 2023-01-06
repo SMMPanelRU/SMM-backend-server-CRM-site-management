@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 
-            $table->decimal('amount');
+            $table->decimal('amount', 20);
             $table->string('description')->index();
 
             $table->foreignId('admin_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();

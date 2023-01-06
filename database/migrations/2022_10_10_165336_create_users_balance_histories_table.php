@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('entity_type')->index();
             $table->unsignedBigInteger('entity_id')->index();
 
-            $table->decimal('amount');
-            $table->decimal('balance');
-            $table->decimal('old_balance');
+            $table->decimal('amount', 20);
+            $table->decimal('balance', 20);
+            $table->decimal('old_balance', 20);
 
             $table->string('description')->nullable()->index();
 
