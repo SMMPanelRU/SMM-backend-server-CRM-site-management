@@ -7,9 +7,9 @@ use App\Actions\Order\CreateOrderAction;
 use App\Actions\Order\OrderDiscountAction;
 use App\Actions\Order\OrderFillExportSystemAction;
 use App\Actions\Order\ProductDiscountAction;
-use App\Actions\Order\ValidateOrderAction;
 use App\Enum\Orders\OrderStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Orders\OrderRequest;
 use App\Http\Requests\Order\NewOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -19,14 +19,28 @@ use App\Services\Orders\OrderItemsParameters;
 use App\Services\Orders\OrderParameters;
 use App\Services\PaymentSystems\BasePaymentSystem;
 use App\Services\SiteContainer;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    public function index(OrderRequest $request): AnonymousResourceCollection
+    {
+
+        $site = app(SiteContainer::class)->getSite();
+
+        $user = Auth::user();
+
+        $orders = $user->orders()->orderBy('id', 'desc')->get();
+
+        return OrderResource::collection(
+            $orders
+        );
+    }
+
     public function create(NewOrderRequest $request)
     {
 

@@ -7,7 +7,7 @@ use App\Services\SiteContainer;
 use App\Traits\EntityAttributeTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource {
+class PageResource extends JsonResource {
 
     use EntityAttributeTrait;
 
@@ -22,7 +22,6 @@ class ProductResource extends JsonResource {
     private array $prices;
     private array $discounts;
     private array $attributes;
-    private int $orderCount;
 
     public function __construct(Product $product) {
         parent::__construct($product);
@@ -37,15 +36,7 @@ class ProductResource extends JsonResource {
         $this->description = $product->description;
         $this->short_description = $product->short_description;
         $this->sort = $product->sort;
-        $this->multiplicity = $product->multiplicity;
-        $this->categories = $product->categories->pluck('id')->toArray();
-        $this->prices = $product->price($site->id)->select('price', 'old_price')->first()->toArray();
         $this->attributes = $attributes;
-        $this->discounts = $product->discounts()->get()->toArray();
-
-        if ($product->orderCount ?? null) {
-            $this->orderCount = $product->orderCount;
-        }
     }
 
     public function toArray($request): array {
@@ -57,12 +48,7 @@ class ProductResource extends JsonResource {
             'description'       => $this->description,
             'short_description' => $this->short_description,
             'sort'              => $this->sort,
-            'multiplicity'      => $this->multiplicity,
-            'categories'        => $this->categories,
-            'prices'            => $this->prices,
             'attributes'        => $this->attributes,
-            'discounts'         => $this->discounts,
-            'order_count'       => $this->orderCount
         ];
     }
 }

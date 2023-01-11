@@ -72,6 +72,8 @@ class Product extends Model
 {
     use HasFactory, HasTranslations, SearchTrait;
 
+    public int $orderCount;
+
     public array $translatable = ['name', 'short_description', 'description'];
 
     protected array $searchFields = [

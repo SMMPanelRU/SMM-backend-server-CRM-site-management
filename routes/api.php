@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PaymentSystemController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
@@ -28,6 +29,8 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
 
     Route::get('/products/{product?}', [ProductController::class, 'index'])->name('products');
 
+    Route::get('/pages/{page:slug?}', [PageController::class, 'index'])->name('pages');
+
     Route::get('/categories/{category?}', [CategoryController::class, 'index'])->name('categories');
 
     Route::get('/payment_systems/{paymentSystem?}', [PaymentSystemController::class, 'index'])->name('payment_systems');
@@ -52,6 +55,7 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
 
         Route::group(['prefix' => 'orders'], function () {
 
+            Route::post('/', [OrderController::class, 'index'])->name('orders');
             Route::post('/create', [OrderController::class, 'create'])->name('order.create');
 
         });
