@@ -2,6 +2,10 @@
 
 namespace App\Services\ExportSystems;
 
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Collection;
+
 interface ExportSystemInterface
 {
 
@@ -9,9 +13,9 @@ interface ExportSystemInterface
 
     public function getBalance();
 
-    public function createOrder();
+    public function createOrder(Order $order, OrderItem $orderItem);
 
-    public function checkOrders();
+    public function checkOrders(Collection $orders);
 
     public function getServices();
 }

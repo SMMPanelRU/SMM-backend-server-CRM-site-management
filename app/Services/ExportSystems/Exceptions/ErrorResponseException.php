@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ExportSystems\Socgress\Exceptions;
+namespace App\Services\ExportSystems\Exceptions;
 
 use App\Exceptions\ExportSystems\BaseExportSystemException;
 use Exception;

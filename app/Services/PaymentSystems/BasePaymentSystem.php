@@ -14,12 +14,12 @@ use PHPUnit\Util\Exception;
 class BasePaymentSystem
 {
 
-    public static string $name        = 'undefined';
+    public static string $name = 'undefined';
     public static string $description = 'undefined';
-    public array         $params;
-    public array         $settings;
-    protected Client     $client;
-    protected string     $apiUrl      = '';
+    public array $params;
+    public array $settings;
+    protected Client $client;
+    protected string $apiUrl = '';
     public static bool $isNoFormPayment = false;
 
     public function getHandlers(): array
@@ -38,7 +38,6 @@ class BasePaymentSystem
      */
     public function getSettings(BasePaymentSystem $instance): array
     {
-
         $paymentSystem = PaymentSystem::query()->where('handler', $instance::$name)->first();
 
         if ($paymentSystem === null) {
@@ -46,7 +45,6 @@ class BasePaymentSystem
         }
 
         return $paymentSystem->settings ?? [];
-
     }
 
     /**
@@ -54,7 +52,6 @@ class BasePaymentSystem
      */
     public function getInstance(string $handler): BasePaymentSystem
     {
-
         if (!in_array(ucfirst($handler), array_flip($this->getHandlers()))) {
             throw new UndefinedHandlerException();
         }
@@ -63,12 +60,12 @@ class BasePaymentSystem
 
         if (class_exists($class)) {
             /* @var \App\Services\PaymentSystems\BasePaymentSystem $instance */
-            $instance           = new $class;
-            $instance->client   = new Client([
+            $instance = new $class;
+            $instance->client = new Client([
                 'base_uri' => $instance->apiUrl,
             ]);
             $instance->settings = $this->getSettings($instance);
-            $instance->params   = $this->getParams($instance);
+            $instance->params = $this->getParams($instance);
 
             return $instance;
         }
@@ -86,11 +83,28 @@ class BasePaymentSystem
         return '';
     }
 
-    public function canPay(User $user, float $amount): bool {
+    public function canPay(User $user, float $amount): bool
+    {
         return false;
     }
 
     public function payForOrder(Order $order): void
-    {}
+    {
+    }
+
+    function generateHtmlForm($url, $method, $data): string
+    {
+        $str = '<form action="'.$url.'" method="'.$method.'">';
+
+        foreach ($data as $k => $v) {
+            $str .= '<input type="hidden" name="'.$k.'" value="'.$v.'">';
+        }
+
+        $str .= '<input type="submit" class="btn btn-primary"  value="PAY">';
+        $str .= '</form>';
+
+        return $str;
+
+    }
 
 }

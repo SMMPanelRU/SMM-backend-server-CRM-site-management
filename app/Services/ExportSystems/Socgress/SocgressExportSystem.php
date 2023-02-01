@@ -2,11 +2,12 @@
 
 namespace App\Services\ExportSystems\Socgress;
 
-use App\Enum\DefaultStatusEnum;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Services\ExportSystems\BaseExportSystem;
+use App\Services\ExportSystems\Exceptions\ErrorResponseException;
 use App\Services\ExportSystems\ExportSystemInterface;
 use App\Services\ExportSystems\ExportSystemProductsParameters;
-use App\Services\ExportSystems\Socgress\Exceptions\ErrorResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
@@ -29,7 +30,7 @@ class SocgressExportSystem extends BaseExportSystem implements ExportSystemInter
     }
 
     /**
-     * @throws \App\Services\ExportSystems\Socgress\Exceptions\ErrorResponseException
+     * @throws \App\Services\ExportSystems\Exceptions\ErrorResponseException
      */
     public function getBalance(): float
     {
@@ -49,12 +50,12 @@ class SocgressExportSystem extends BaseExportSystem implements ExportSystemInter
         return (float) $jsonBody->balance ?? 0;
     }
 
-    public function createOrder()
+    public function createOrder(Order $order, OrderItem $orderItem)
     {
         // TODO: Implement createOrder() method.
     }
 
-    public function checkOrders()
+    public function checkOrders(Collection $orders)
     {
         // TODO: Implement checkOrders() method.
     }

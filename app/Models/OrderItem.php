@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int                             $count
  * @property int|null                        $done_count
  * @property int                             $export_system_product_id
+ * @property string|null                     $export_order_id
  * @property int|null                        $export_system_status
  * @property string|null                     $export_system_status_description
  * @property-read \App\Models\ExportSystem   $exportSystem

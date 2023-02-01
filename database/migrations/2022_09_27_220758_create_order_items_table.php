@@ -27,6 +27,8 @@ return new class extends Migration
 
             $table->foreignId('export_system_product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 
+            $table->string('export_order_id')->index()->nullable();
+
             $table->integer('export_system_status')->nullable();
 
             $table->string('export_system_status_description')->nullable();

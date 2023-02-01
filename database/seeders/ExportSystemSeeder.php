@@ -23,11 +23,23 @@ class ExportSystemSeeder extends Seeder
                     'en' => 'Socgress',
                     'ru' => 'Socgress',
                 ],
-                'status'   => DefaultStatusEnum::ON,
+                'status'   => DefaultStatusEnum::OFF,
                 'slug'     => 'socgress',
                 'handler'  => 'Socgress',
                 'settings' => [
                     'api_key' => encrypt(env('SOCGRESS_API_KEY')),
+                ],
+            ],
+            'Justanotherpanel' => [
+                'name'     => [
+                    'en' => 'Justanotherpanel',
+                    'ru' => 'Justanotherpanel',
+                ],
+                'status'   => DefaultStatusEnum::ON,
+                'slug'     => 'justanotherpanel',
+                'handler'  => 'justanotherpanel',
+                'settings' => [
+                    'api_key' => encrypt(env('JUSTANOTHERPANEL_API_KEY')),
                 ],
             ],
         ];
