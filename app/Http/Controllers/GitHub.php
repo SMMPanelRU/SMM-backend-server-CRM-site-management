@@ -10,5 +10,6 @@ class GitHub extends Controller
     public function webhook(Request $request)
     {
         Log::info(json_encode($request->toArray()));
+        echo 'v1'; //testing
     }
 }
