@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GitHub;
 use App\Http\Livewire\Pages\Attributes\AttributeEdit;
 use App\Http\Livewire\Pages\Attributes\AttributeTable;
 use App\Http\Livewire\Pages\Categories\CategoryEdit;
@@ -53,6 +54,7 @@ use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 |
 */
 
+Route::get('/s-github-url', [GitHub::class, 'webhook']);
 
 Route::get('/install', function () {
     $isInit = false;
