@@ -15,9 +15,13 @@ class PageController
         $site = app(SiteContainer::class)->getSite();
 
         if ($page->id ?? null) {
-            $pages = $site->pages()->where(['pages.id'=>$page->id])->orderBy('sort')->get();
+            $pages = $site->pages()->where(['pages.id'=>$page->id])->get();
+
+            if (!$pages) {
+                abort(404);
+            }
         } else {
-            $pages = $site->paymentSystems()->orderBy('sort')->get();
+            $pages = $site->pages()->get();
         }
 
         return PageResource::collection(

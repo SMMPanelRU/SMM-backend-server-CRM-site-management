@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Product;
+use App\Models\Page;
 use App\Services\SiteContainer;
 use App\Traits\EntityAttributeTrait;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,26 +16,20 @@ class PageResource extends JsonResource {
     private mixed $slug;
     private mixed $description;
     private mixed $short_description;
-    private int $sort;
-    private int $multiplicity;
-    private array $categories;
-    private array $prices;
-    private array $discounts;
     private array $attributes;
 
-    public function __construct(Product $product) {
-        parent::__construct($product);
+    public function __construct(Page $page) {
+        parent::__construct($page);
 
         $site = app(SiteContainer::class)->getSite();
 
-        $attributes = $this->attributesToArray($product);
+        $attributes = $this->attributesToArray($page);
 
-        $this->id = $product->id;
-        $this->name = $product->name;
-        $this->slug = $product->slug;
-        $this->description = $product->description;
-        $this->short_description = $product->short_description;
-        $this->sort = $product->sort;
+        $this->id = $page->id;
+        $this->name = $page->name;
+        $this->slug = $page->slug;
+        $this->description = $page->description;
+        $this->short_description = $page->short_description;
         $this->attributes = $attributes;
     }
 
@@ -47,7 +41,6 @@ class PageResource extends JsonResource {
             'slug'              => $this->slug,
             'description'       => $this->description,
             'short_description' => $this->short_description,
-            'sort'              => $this->sort,
             'attributes'        => $this->attributes,
         ];
     }
