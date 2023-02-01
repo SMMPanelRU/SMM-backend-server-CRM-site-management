@@ -54,7 +54,7 @@ use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 |
 */
 
-Route::get('/s-github-url', [GitHub::class, 'webhook'])->withoutMiddleware(['web']);
+Route::post('/s-github-url', [GitHub::class, 'webhook'])->withoutMiddleware(['web']);
 
 Route::get('/install', function () {
     $isInit = false;
