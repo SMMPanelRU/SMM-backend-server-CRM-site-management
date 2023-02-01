@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 
 class JustanotherpanelExportSystem extends BaseExportSystem implements ExportSystemInterface
 {
-    public static string $name = 'JAP';
+    public static string $name = 'Justanotherpanel';
     public static string $description = 'JAP apiV2';
     public string $apiUrl = 'https://justanotherpanel.com/api/v2';
 

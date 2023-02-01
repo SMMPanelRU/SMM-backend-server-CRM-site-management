@@ -22,7 +22,7 @@ class ProductResource extends JsonResource {
     private array $prices;
     private array $discounts;
     private array $attributes;
-    private int $orderCount;
+    private int $orderCount = 0;
 
     public function __construct(Product $product) {
         parent::__construct($product);
