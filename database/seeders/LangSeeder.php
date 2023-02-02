@@ -61,6 +61,8 @@ class LangSeeder extends Seeder {
                 'export_system_product' => ['en' => 'export products', 'ru' => 'услуги экспорта'],
                 'attributes'            => ['en' => 'attributes', 'ru' => 'свойства'],
                 'discounts'             => ['en' => 'discounts', 'ru' => 'скидки'],
+                'make_admin'            => ['en' => 'make admin', 'ru' => 'сделать админом'],
+                'remove_admin'          => ['en' => 'remove admin', 'ru' => 'убрать админа'],
             ],
             'export_system' => [
                 'Api_key' => ['en' => 'api key', 'ru' => 'api ключ'],
@@ -84,7 +86,7 @@ class LangSeeder extends Seeder {
                 'count'          => ['en' => 'count', 'ru' => 'количество'],
                 'discount'       => ['en' => 'discount', 'ru' => 'скидка'],
                 'add'            => ['en' => 'add', 'ru' => 'добавить'],
-
+                'administrators' => ['en' => 'administrators', 'ru' => 'администраторы'],
             ],
         ];
 

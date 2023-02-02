@@ -7,6 +7,7 @@ use App\Exceptions\Users\InsufficientFundsException;
 use App\Models\Attribute;
 use App\Models\ManualOrder;
 use App\Models\Site;
+use App\Models\Team;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\EntityAttributeTrait;
@@ -128,6 +129,26 @@ class UserEdit extends Component
         $this->dispatchBrowserEvent('toast', ['type' => 'success', 'message' => __('text.balance was updated')]);
 
         return true;
+    }
+
+    public function toggleAdmin($status)
+    {
+
+        if ($this->user->id === 1) {
+            $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => 'Cant delete default admin']);
+            return false;
+        }
+        $team = Team::where('name', 'Administrators')->first();
+        if ((int)$status === 0) {
+            $team->removeUser($this->user);
+        } else {
+            $team->users()->attach($this->user, ['role' => 'SuperAdmin']);
+        }
+
+        $this->user->refresh();
+
+        $this->dispatchBrowserEvent('toast', ['type' => 'success', 'message' => __('row was updated')]);
+
     }
 
     public function delete()

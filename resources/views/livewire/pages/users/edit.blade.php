@@ -42,6 +42,16 @@
                         </form>
                     </td>
                 </tr>
+
+                <tr>
+                    <td colspan="2">
+                        @if ($user->belongsToTeam(\App\Models\Team::where('name', 'Administrators')->first()))
+                                <button wire:click="toggleAdmin(0)" class="btn btn-warning">{{__('forms.remove_admin')}}
+                            @else
+                                <button wire:click="toggleAdmin(1)" class="btn btn-warning">{{__('forms.make_admin')}}
+                        @endif
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="2">
                         <button wire:click="submit" class="btn btn-success me-2" type="button"
