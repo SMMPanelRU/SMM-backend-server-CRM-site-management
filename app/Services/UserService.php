@@ -16,6 +16,15 @@ class UserService
         $this->user = $user;
     }
 
+    public function getAuthField($value): string
+    {
+        if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            return 'email';
+        }
+
+        return 'name';
+    }
+
     /**
      * @throws \App\Exceptions\Users\InsufficientFundsException
      */

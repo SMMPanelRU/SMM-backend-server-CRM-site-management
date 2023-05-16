@@ -22,36 +22,36 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * App\Models\User
  *
- * @property int                                                                                                            $id
- * @property string                                                                                                         $name
- * @property string                                                                                                         $email
- * @property \Illuminate\Support\Carbon|null                                                                                $email_verified_at
- * @property string                                                                                                         $password
- * @property string|null                                                                                                    $two_factor_secret
- * @property string|null                                                                                                    $two_factor_recovery_codes
- * @property string|null                                                                                                    $two_factor_confirmed_at
- * @property string|null                                                                                                    $remember_token
- * @property int|null                                                                                                       $current_team_id
- * @property string|null                                                                                                    $profile_photo_path
- * @property \Illuminate\Support\Carbon|null                                                                                $created_at
- * @property \Illuminate\Support\Carbon|null                                                                                $updated_at
- * @property int|null                                                                                                       $site_id
- * @property int|null                                                                                                       $site_user_id
- * @property DefaultStatusEnum                                                                                              $status
- * @property-read \App\Models\UserBalance|null                                                                              $balance
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserBalanceHistory[]                                 $balanceHistory
- * @property-read int|null                                                                                                  $balance_history_count
- * @property-read \App\Models\Team|null                                                                                     $currentTeam
- * @property-read string                                                                                                    $profile_photo_url
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string $password
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
+ * @property string|null $remember_token
+ * @property int|null $current_team_id
+ * @property string|null $profile_photo_path
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $site_id
+ * @property int|null $site_user_id
+ * @property DefaultStatusEnum $status
+ * @property-read \App\Models\UserBalance|null $balance
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserBalanceHistory[] $balanceHistory
+ * @property-read int|null $balance_history_count
+ * @property-read \App\Models\Team|null $currentTeam
+ * @property-read string $profile_photo_url
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null                                                                                                  $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[]                                               $ownedTeams
- * @property-read int|null                                                                                                  $owned_teams_count
- * @property-read \App\Models\Site|null                                                                                     $site
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[]                                               $teams
- * @property-read int|null                                                                                                  $teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                           $tokens
- * @property-read int|null                                                                                                  $tokens_count
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[] $ownedTeams
+ * @property-read int|null $owned_teams_count
+ * @property-read \App\Models\Site|null $site
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[] $teams
+ * @property-read int|null $teams_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -86,9 +86,9 @@ class User extends Authenticatable
     use SearchTrait;
 
     protected array $searchFields = [
-        'id'      => 'match',
-        'name'    => 'like',
-        'email'   => 'like',
+        'id' => 'match',
+        'name' => 'like',
+        'email' => 'like',
         'site_id' => 'match',
     ];
 
@@ -98,7 +98,9 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -120,7 +122,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'status'            => DefaultStatusEnum::class,
+        'status' => DefaultStatusEnum::class,
     ];
 
     /**
@@ -150,5 +152,10 @@ class User extends Authenticatable
     public function balanceHistory(): HasManyThrough
     {
         return $this->hasManyThrough(UserBalanceHistory::class, UserBalance::class);
+    }
+
+    public function profile(): HasMany
+    {
+        return $this->hasMany(UserProfile::class);
     }
 }
