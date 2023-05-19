@@ -63,6 +63,9 @@
                     <th class="align-middle">
                         {{__('text.currency')}}
                     </th>
+                    <th class="align-middle">
+                        {{__('text.lang')}}
+                    </th>
                     <th></th>
                 </tr>
                 </thead>

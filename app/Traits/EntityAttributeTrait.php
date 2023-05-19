@@ -30,7 +30,7 @@ trait EntityAttributeTrait
                     $attributeValue->attribute()->associate($attribute);
                 }
 
-                if (in_array($attribute->type, [AttributeTypesEnum::Textarea, AttributeTypesEnum::Html])) {
+                if (in_array($attribute->type, [AttributeTypesEnum::Textarea, AttributeTypesEnum::Html, AttributeTypesEnum::Text])) {
                     $attributeValue->text_value = $value;
                 } elseif (in_array($attribute->type, [AttributeTypesEnum::Select])) {
                     $attributeValue->attribute_predefined_value_id = $value;

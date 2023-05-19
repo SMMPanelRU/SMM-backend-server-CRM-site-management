@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string                                                                    $api_key
  * @property string|null                                                               $url
  * @property int|null                                                                  $currency_id
+ * @property string                                                                    $lang
  * @property-read \App\Models\Currency|null                                            $currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Faq[]           $faqs
  * @property-read int|null                                                             $faqs_count

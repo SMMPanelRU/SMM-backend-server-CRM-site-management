@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckSiteMiddleware;
+use App\Http\Middleware\ClientLanguageMiddleware;
 use App\Http\Middleware\IsAdministrator;
 use App\Http\Middleware\LanguageMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -48,6 +49,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            ClientLanguageMiddleware::class,
         ],
     ];
 

@@ -27,6 +27,7 @@ class SiteItem extends Component
             'logo'        => 'nullable|image|max:1024',
             'site.name'   => 'required',
             'site.url'    => 'required|url',
+            'site.lang'    => 'required|string',
             'site.status' => [
                 'required',
                 new Enum(DefaultStatusEnum::class),

@@ -48,6 +48,14 @@
         {{$site->currency->code}}
     </td>
     <td>
+        <select class="form-control form-control-sm" wire:model="site.lang" wire:loading.attr="disabled">
+            <option>{{__('lang')}}</option>
+            @foreach(config('app.locales') as $lang)
+                <option>{{$lang}}</option>
+            @endforeach
+        </select>
+    </td>
+    <td>
         @if (!$deleteLoading)
             <span class="cursor-pointer" wire:click="delete({{$site->id}})" wire:loading.remove>
                 <i class="fas fa-trash"></i>
