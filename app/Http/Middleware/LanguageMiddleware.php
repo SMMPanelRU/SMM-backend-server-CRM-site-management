@@ -17,12 +17,17 @@ class LanguageMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        //todo add lang from user profile
+        $userLang = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
-        if(session()->has('locale'))
+        if(session()->has('locale')) {
             app()->setLocale(session('locale'));
-        else
-            app()->setLocale(config('app.locale'));
+        } else {
+            if (in_array($userLang, config('app.locales'))) {
+                app()->setLocale($userLang);
+            } else {
+                app()->setLocale(config('app.locale'));
+            }
+        }
 
         return $next($request);
     }

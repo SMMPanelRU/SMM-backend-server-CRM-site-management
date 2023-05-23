@@ -23,6 +23,7 @@ return new class extends Migration
         $attribute->entity_type = Category::class;
         $attribute->is_searchable = false;
         $attribute->is_translatable = false;
+        $attribute->save();
     }
 
     /**
