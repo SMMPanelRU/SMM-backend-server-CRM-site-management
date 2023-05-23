@@ -31,7 +31,11 @@ trait EntityAttributeTrait
                 }
 
                 if (in_array($attribute->type, [AttributeTypesEnum::Textarea, AttributeTypesEnum::Html, AttributeTypesEnum::Text])) {
-                    $attributeValue->text_value = $value;
+                    if ($attribute->is_translatable) {
+                        $attributeValue->text_value = $value;
+                    } else {
+                        $attributeValue->non_translatable_value = $value;
+                    }
                 } elseif (in_array($attribute->type, [AttributeTypesEnum::Select])) {
                     $attributeValue->attribute_predefined_value_id = $value;
                 } else {

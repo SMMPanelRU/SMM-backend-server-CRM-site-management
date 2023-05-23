@@ -40,7 +40,7 @@ class CategoryEdit extends Component
             'category.slug'        => 'required',
             'category.sort'        => 'required|numeric',
             'category.category_id' => "nullable|exists:$categories,id",
-            'attr.*'               => 'array',
+            'attr'               => 'array',
         ];
     }
 
@@ -68,7 +68,12 @@ class CategoryEdit extends Component
 
             if ($category->attributes ?? null) {
                 foreach ($category->attributes as $attr) {
-                    $this->attr[$attr->attribute->slug] = !empty($attr->value) ? $attr->getTranslations('value') : $attr->getTranslations('text_value');
+                    if ($attr->attribute->is_translatable) {
+                        $this->attr[$attr->attribute->slug] = !empty($attr->value) ? $attr->getTranslations('value') : $attr->getTranslations('text_value');
+                    } else {
+                        $this->attr[$attr->attribute->slug] = $attr->non_translatable_value;
+                    }
+
                 }
             }
         }

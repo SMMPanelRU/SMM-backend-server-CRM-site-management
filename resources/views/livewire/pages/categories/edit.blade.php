@@ -64,28 +64,53 @@
         <div class="col-sm-6">
             <table class="table table-hover table-striped ">
                 @foreach($allAttributes as $attribute)
+
+                    @php /** @var App\Models\Attribute $attribute */ @endphp
+
                     @if ($attribute->type === \App\Enum\Attributes\AttributeTypesEnum::Text)
-                        @foreach(config('app.locales') as $lang)
+                        @if ($attribute->is_translatable === true)
+                            @foreach(config('app.locales') as $lang)
+                                <tr>
+                                    <th class="wd-10p">
+                                        {{$attribute->name}} {{$lang}}
+                                    </th>
+                                    <td class="align-middle">
+                                        <x-forms.input model="attr.{{$attribute->slug}}.{{$lang}}" type="text"/>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
                                 <th class="wd-10p">
-                                    {{$attribute->name}} {{$lang}}
+                                    {{$attribute->name}}
                                 </th>
                                 <td class="align-middle">
-                                    <x-forms.input model="attr.{{$attribute->slug}}.{{$lang}}" type="text"/>
+                                    <x-forms.input model="attr.{{$attribute->slug}}" type="text"/>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endif
                     @elseif ($attribute->type === \App\Enum\Attributes\AttributeTypesEnum::Textarea)
-                        @foreach(config('app.locales') as $lang)
+                        @if ($attribute->is_translatable === true)
+                            @foreach(config('app.locales') as $lang)
+                                <tr>
+                                    <th class="wd-10p">
+                                        {{$attribute->name}} {{$lang}}
+                                    </th>
+                                    <td class="align-middle">
+                                        <x-forms.textarea model="attr.{{$attribute->slug}}.{{$lang}}"/>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
                                 <th class="wd-10p">
-                                    {{$attribute->name}} {{$lang}}
+                                    {{$attribute->name}}
                                 </th>
                                 <td class="align-middle">
-                                    <x-forms.textarea model="attr.{{$attribute->slug}}.{{$lang}}"/>
+                                    <x-forms.textarea model="attr.{{$attribute->slug}}"/>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endif
                     @endif
                 @endforeach
 

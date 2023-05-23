@@ -48,10 +48,12 @@ use Spatie\Translatable\HasTranslations;
  */
 class Attribute extends Model
 {
-    use HasFactory, HasTranslations, SearchTrait;
+    use HasTranslations, SearchTrait;
 
     protected $casts = [
         'type'       => AttributeTypesEnum::class,
+        'is_searchable' => 'bool',
+        'is_translatable' => 'bool',
     ];
 
     protected array $searchFields = [
