@@ -17,7 +17,8 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductEdit extends Component {
+class ProductEdit extends Component
+{
 
     use WithFileUploads, EntityAttributeTrait;
 
@@ -35,10 +36,11 @@ class ProductEdit extends Component {
     public ?Collection $exportSystemProducts = null;
     public array $prices = [];
     public array $discounts = [];
-    public string $exportSystemProductSearch = '';
+    public ?string $exportSystemProductSearch = null;
+    public $exportSystemUpdated = false;
 
-    public function rules() {
-
+    public function rules()
+    {
         return [
             'product.name.en' => 'required',
             'product.name.ru' => 'required',
@@ -60,11 +62,13 @@ class ProductEdit extends Component {
             'prices.*'    => 'sometimes',
             'discounts.*' => 'sometimes',
 
+            'exportSystem'              => 'nullable|integer',
             'exportSystemProductSearch' => 'nullable|string',
         ];
     }
 
-    public function boot() {
+    public function boot()
+    {
         $this->allCategories = Category::query()->get();
         $this->allSites = Site::query()->get();
         $this->allAttributes = Attribute::query()->where('entity_type', Product::class)->get();
@@ -79,9 +83,9 @@ class ProductEdit extends Component {
     {
         $product = ExportSystemProduct::query()
             ->where('export_system_id', $this->exportSystem)
-            ->where(function($q) use ($value) {
+            ->where(function ($q) use ($value) {
                 $q->where('name', 'like', "%$value%")
-                ->orWhere('unique_id', 'like', "%$value%");
+                    ->orWhere('unique_id', 'like', "%$value%");
             })
             ->first();
 
@@ -90,8 +94,8 @@ class ProductEdit extends Component {
         }
     }
 
-    public function render() {
-
+    public function render()
+    {
         if ($this->product->id ?? null) {
             $product = Product::query()->with(['attributes', 'exportSystemProduct'])->find($this->product->id);
 
@@ -113,7 +117,7 @@ class ProductEdit extends Component {
 
             $this->sites = $product->sites()->pluck('site_id')->toArray();
 
-            if ($product->export_system_product_id ?? null) {
+            if (($product->export_system_product_id ?? null) && $this->exportSystemUpdated === false) {
                 $this->exportSystem = $product->exportSystem->id;
                 $this->exportSystemProducts = $product->exportSystem->exportSystemProducts()->active()->get();
             }
@@ -135,16 +139,17 @@ class ProductEdit extends Component {
         return view('livewire.pages.products.edit');
     }
 
-    public function addEmptyDiscount() {
+    public function addEmptyDiscount()
+    {
         $this->discounts['new'][] = [
             'count'    => 0,
             'discount' => 0,
         ];
     }
 
-    public function updatedExportSystem($value): bool {
-
-        if ((int)$value === 0) {
+    public function updatedExportSystem($value): bool
+    {
+        if ((int) $value === 0) {
             $this->exportSystem = null;
             $this->exportSystemProducts = null;
 
@@ -153,18 +158,23 @@ class ProductEdit extends Component {
 
         $exportSystem = ExportSystem::find($value);
         if ($exportSystem === null) {
-            $this->dispatchBrowserEvent('toast', ['type' => 'error', 'message' => __('errors.Export system not found')]);
+            $this->dispatchBrowserEvent('toast',
+                ['type' => 'error', 'message' => __('errors.Export system not found')]);
 
             return false;
         }
 
-        $this->exportSystemProducts = ExportSystemProduct::query()->active()->where('export_system_id', $exportSystem->id)->get();
+        $this->exportSystemProductSearch = null;
+        $this->exportSystem = $exportSystem->id;
+        $this->exportSystemProducts = ExportSystemProduct::query()->active()->where('export_system_id',
+            $exportSystem->id)->get();
 
+        $this->exportSystemUpdated = true;
         return true;
     }
 
-    public function submit(): bool {
-
+    public function submit(): bool
+    {
         try {
             $this->validate();
         } catch (ValidationException $e) {
@@ -235,7 +245,8 @@ class ProductEdit extends Component {
     }
 
 
-    public function delete() {
+    public function delete()
+    {
         $this->product->attributes()->delete();
 
         $this->deleteLoading = true;
