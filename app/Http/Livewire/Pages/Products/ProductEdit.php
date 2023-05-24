@@ -81,16 +81,18 @@ class ProductEdit extends Component
 
     public function updatedExportSystemProductSearch($value)
     {
-        $product = ExportSystemProduct::query()
+        $products = ExportSystemProduct::query()
             ->where('export_system_id', $this->exportSystem)
             ->where(function ($q) use ($value) {
                 $q->where('name', 'like', "%$value%")
                     ->orWhere('unique_id', 'like', "%$value%");
             })
-            ->first();
+            ->get();
 
-        if ($product) {
-            $this->product->export_system_product_id = $product->id;
+        if ($products->count() > 0) {
+            $this->product->export_system_product_id = $products->first()->id;
+
+            $this->exportSystemProducts = $products;
         }
     }
 
