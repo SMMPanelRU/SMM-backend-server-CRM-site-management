@@ -130,6 +130,9 @@
                         <th>{{__('forms.export_system_product')}}</th>
                         <td>
                             <input type="text" class="form-control-sm form-control" wire:model="exportSystemProductSearch" placeholder="{{__('text.search')}}">
+
+                            <span wire:loading wire:target="exportSystemProductSearch"><i class="fas fa-loader fa-spin"></i></span>
+
                             <select class="form-control-sm form-control"
                                     wire:model.defer="product.export_system_product_id">
                                 <option value="">{{__('fields.choose')}}</option>
