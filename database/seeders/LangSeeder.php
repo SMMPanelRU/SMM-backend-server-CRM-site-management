@@ -87,6 +87,7 @@ class LangSeeder extends Seeder {
                 'discount'       => ['en' => 'discount', 'ru' => 'скидка'],
                 'add'            => ['en' => 'add', 'ru' => 'добавить'],
                 'administrators' => ['en' => 'administrators', 'ru' => 'администраторы'],
+                'search'         => ['en' => 'search', 'ru' => 'поиск'],
             ],
         ];
 

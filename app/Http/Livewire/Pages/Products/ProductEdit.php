@@ -35,6 +35,7 @@ class ProductEdit extends Component {
     public ?Collection $exportSystemProducts = null;
     public array $prices = [];
     public array $discounts = [];
+    public string $exportSystemProductSearch = '';
 
     public function rules() {
 
@@ -58,6 +59,8 @@ class ProductEdit extends Component {
             'sites.*'     => 'sometimes',
             'prices.*'    => 'sometimes',
             'discounts.*' => 'sometimes',
+
+            'exportSystemProductSearch' => 'nullable|string',
         ];
     }
 
@@ -69,6 +72,21 @@ class ProductEdit extends Component {
 
         if (!$this->product) {
             $this->product = new Product();
+        }
+    }
+
+    public function updatedExportSystemProductSearch($value)
+    {
+        $product = ExportSystemProduct::query()
+            ->where('export_system_id', $this->exportSystem)
+            ->where(function($q) use ($value) {
+                $q->where('name', 'like', "%$value%")
+                ->orWhere('unique_id', 'like', "%$value%");
+            })
+            ->first();
+
+        if ($product) {
+            $this->product->export_system_product_id = $product->id;
         }
     }
 

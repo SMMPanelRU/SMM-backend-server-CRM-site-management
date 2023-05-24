@@ -129,11 +129,13 @@
                     <tr>
                         <th>{{__('forms.export_system_product')}}</th>
                         <td>
+                            <input type="text" class="form-control-sm form-control" wire:model="exportSystemProductSearch" placeholder="{{__('text.search')}}">
                             <select class="form-control-sm form-control"
                                     wire:model.defer="product.export_system_product_id">
                                 <option value="">{{__('fields.choose')}}</option>
                                 @foreach($exportSystemProducts as $exportSystemProduct)
-                                    <option value="{{$exportSystemProduct->id}}">{{$exportSystemProduct->name}}</option>
+                                    @php /** @var App\Models\ExportSystemProduct $exportSystemProduct */ @endphp
+                                    <option value="{{$exportSystemProduct->id}}">{{$exportSystemProduct->unique_id}} {{$exportSystemProduct->name}}</option>
                                 @endforeach
                             </select>
                         </td>

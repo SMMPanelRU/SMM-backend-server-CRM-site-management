@@ -22,7 +22,7 @@
         {{ $exportSystem->hanlder }}
     </td>
     <td>
-        <select class="form-control form-control-sm" wire:model="extSystem.status" wire:loading.attr="disabled">
+        <select class="form-control form-control-sm" wire:model="exportSystem.status" wire:loading.attr="disabled">
             <option>{{__('status')}}</option>
             @foreach(\App\Enum\DefaultStatusEnum::cases() as $status)
                 <option value="{{$status->value}}">{{$status->label()}}</option>
