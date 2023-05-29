@@ -42,13 +42,13 @@ class ProductEdit extends Component
     public function rules()
     {
         return [
-            'product.name.en' => 'required',
+            'product.name.en' => 'sometimes|nullable',
             'product.name.ru' => 'required',
 
-            'product.short_description.en' => 'required',
+            'product.short_description.en' => 'sometimes|nullable',
             'product.short_description.ru' => 'required',
 
-            'product.description.en' => 'required',
+            'product.description.en' => 'sometimes|nullable',
             'product.description.ru' => 'required',
 
             'product.slug'                     => 'required',
@@ -205,26 +205,30 @@ class ProductEdit extends Component
         }
 
 
-        foreach ($this->discounts['existed'] as $discount) {
-            $discountProduct = DiscountProduct::find($discount['id']);
-            if ($discountProduct ?? null) {
-                if ($discount['count'] > 0) {
-                    $discountProduct->count = $discount['count'];
-                    $discountProduct->discount = $discount['discount'];
-                    $discountProduct->save();
-                } else {
-                    $discountProduct->delete();
+        if ($this->discounts['existed'] ?? null) {
+            foreach ($this->discounts['existed'] as $discount) {
+                $discountProduct = DiscountProduct::find($discount['id']);
+                if ($discountProduct ?? null) {
+                    if ($discount['count'] > 0) {
+                        $discountProduct->count = $discount['count'];
+                        $discountProduct->discount = $discount['discount'];
+                        $discountProduct->save();
+                    } else {
+                        $discountProduct->delete();
+                    }
                 }
             }
         }
 
-        foreach ($this->discounts['new'] as $discount) {
-            if ($discount['count'] > 0) {
-                $discountProduct = new DiscountProduct();
-                $discountProduct->product()->associate($this->product);
-                $discountProduct->count = $discount['count'];
-                $discountProduct->discount = $discount['discount'];
-                $discountProduct->save();
+        if ($this->discounts['new'] ?? null) {
+            foreach ($this->discounts['new'] as $discount) {
+                if ($discount['count'] > 0) {
+                    $discountProduct = new DiscountProduct();
+                    $discountProduct->product()->associate($this->product);
+                    $discountProduct->count = $discount['count'];
+                    $discountProduct->discount = $discount['discount'];
+                    $discountProduct->save();
+                }
             }
         }
 
