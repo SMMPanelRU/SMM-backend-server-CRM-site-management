@@ -15,7 +15,7 @@ class OrderParameters
     private PaymentSystem $paymentSystem;
     private OrderStatusEnum $status;
     private float $amount;
-    private float $discount;
+    private float $discount = 0;
     private ?Collection $discounts = null;
     private Collection $items;
     private array $details;

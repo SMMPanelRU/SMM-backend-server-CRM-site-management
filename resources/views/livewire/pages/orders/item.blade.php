@@ -4,9 +4,14 @@
         {{ $order->user->name }}
     </td>
     <td>
-        @foreach($order->products as $product)
-            {{$product->product->name}}<br>
-        @endforeach
+
+        @if ($order->is_balance_order === \App\Enum\DefaultStatusEnum::ON)
+            Пополнение баланса
+        @else
+            @foreach($order->products as $product)
+                {{$product->product->name}}<br>
+            @endforeach
+        @endif
     </td>
     <td>
         @foreach($order->products as $product)

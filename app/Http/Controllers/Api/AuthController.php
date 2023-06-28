@@ -33,12 +33,14 @@ class AuthController
 
         $user->save();
 
-        foreach ($validatedData['profile'] as $key => $value) {
-            $userProfile = UserProfile::create([
-                'user_id' => $user->id,
-                'key' => $key,
-                'value' => $value,
-            ]);
+        if (!empty($validatedData['profile'])) {
+            foreach ($validatedData['profile'] as $key => $value) {
+                $userProfile = UserProfile::create([
+                    'user_id' => $user->id,
+                    'key' => $key,
+                    'value' => $value,
+                ]);
+            }
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

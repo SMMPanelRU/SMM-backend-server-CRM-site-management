@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\DefaultStatusEnum;
 use App\Enum\Orders\OrderStatusEnum;
 use App\Models\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,20 +14,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * App\Models\Order
  *
- * @property int                                                                     $id
- * @property \Illuminate\Support\Carbon|null                                         $created_at
- * @property \Illuminate\Support\Carbon|null                                         $updated_at
- * @property int                                                                     $user_id
- * @property int                                                                     $site_id
- * @property int                                                                     $payment_system_id
- * @property float                                                                   $amount
- * @property float                                                                   $discount
- * @property OrderStatusEnum                                                         $status
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $user_id
+ * @property int $site_id
+ * @property int $payment_system_id
+ * @property float $amount
+ * @property float $discount
+ * @property OrderStatusEnum $status
+ * @property DefaultStatusEnum $is_balance_order
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $details
- * @property-read int|null                                                           $details_count
- * @property-read \App\Models\PaymentSystem                                          $paymentSystem
- * @property-read \App\Models\Site                                                   $site
- * @property-read \App\Models\User                                                   $user
+ * @property-read int|null $details_count
+ * @property-read \App\Models\PaymentSystem $paymentSystem
+ * @property-read \App\Models\Site $site
+ * @property-read \App\Models\User $user
  * @method static Builder|Order newModelQuery()
  * @method static Builder|Order newQuery()
  * @method static Builder|Order query()
@@ -48,7 +50,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Order extends Model
 {
-    use HasFactory, SearchTrait;
+    use SearchTrait;
 
     public string $paymentForm;
 
@@ -58,7 +60,8 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'status' => OrderStatusEnum::class,
+        'status'           => OrderStatusEnum::class,
+        'is_balance_order' => DefaultStatusEnum::class,
     ];
 
     public function user(): BelongsTo

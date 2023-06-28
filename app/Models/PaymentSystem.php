@@ -15,20 +15,21 @@ use Spatie\Translatable\HasTranslations;
 /**
  * App\Models\PaymentSystem
  *
- * @property int                                                              $id
- * @property \Illuminate\Support\Carbon|null                                  $created_at
- * @property \Illuminate\Support\Carbon|null                                  $updated_at
- * @property array                                                            $name
- * @property DefaultStatusEnum                                                $status
- * @property string                                                           $slug
- * @property int                                                              $sort
- * @property string|null                                                      $logo
- * @property string|null                                                      $handler
- * @property array|null                                                       $settings
- * @property string|null                                                      $name_en
- * @property string|null                                                      $name_ru
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array $name
+ * @property DefaultStatusEnum $status
+ * @property string $slug
+ * @property int $sort
+ * @property string|null $logo
+ * @property string|null $handler
+ * @property array|null $settings
+ * @property string|null $name_en
+ * @property string|null $name_ru
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Site[] $sites
- * @property-read int|null                                                    $sites_count
+ * @property-read int|null $sites_count
+ * @property DefaultStatusEnum $can_update_balance
  * @method static Builder|PaymentSystem active()
  * @method static Builder|PaymentSystem forSite(\App\Models\Site $site)
  * @method static Builder|PaymentSystem newModelQuery()
@@ -50,7 +51,8 @@ use Spatie\Translatable\HasTranslations;
  * @method static \Database\Factories\PaymentSystemFactory factory(...$parameters)
  * @method static Builder|PaymentSystem whereSort($value)
  */
-class PaymentSystem extends Model {
+class PaymentSystem extends Model
+{
     use HasFactory, HasTranslations, SearchTrait;
 
     public array $translatable = ['name'];
@@ -61,21 +63,25 @@ class PaymentSystem extends Model {
     ];
 
     protected $casts = [
-        'status'   => DefaultStatusEnum::class,
-        'settings' => 'array',
+        'status'             => DefaultStatusEnum::class,
+        'can_update_balance' => DefaultStatusEnum::class,
+        'settings'           => 'array',
     ];
 
-    public function scopeActive($query) {
+    public function scopeActive($query)
+    {
         return $query->where(['status' => DefaultStatusEnum::ON]);
     }
 
-    public function scopeForSite(Builder $query, Site $site): Builder {
+    public function scopeForSite(Builder $query, Site $site): Builder
+    {
         return $query->whereHas('sites', function ($query) use ($site) {
             $query->where('product_sites.site_id', $site->id);
         });
     }
 
-    public function sites(): MorphToMany {
+    public function sites(): MorphToMany
+    {
         return $this->morphToMany(Site::class, 'entity_model');
     }
 

@@ -57,6 +57,7 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
 
             Route::post('/', [OrderController::class, 'index'])->name('orders');
             Route::post('/create', [OrderController::class, 'create'])->name('order.create');
+            Route::post('/create/balance', [OrderController::class, 'createBalanceOrder'])->name('order.balance.create');
 
         });
     });

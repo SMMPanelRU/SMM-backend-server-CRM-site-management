@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class UserController
@@ -18,6 +19,6 @@ class UserController
 
     public function me(Request $request)
     {
-        return $request->user();
+        return (new UserResource($request->user()));
     }
 }

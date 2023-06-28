@@ -19,7 +19,7 @@ class ProductDiscountAction
 
             $discountProduct = DiscountProduct::query()->where(['product_id' => $product->id])->where('count', '>=', $count)->orderBy('count', 'asc')->first();
 
-            if ($discountProduct->exists() === false) {
+            if ($discountProduct === null) {
                 continue;
             }
 

@@ -23,7 +23,7 @@ class OrderDiscountAction
             $product = $item->getProduct();
             $productPrice = $product->price($site->id)->first();
 
-            if ($productPrice->exists() === false) {
+            if ($productPrice === null) {
                 //todo add to debug info product without price
                 continue;
             }

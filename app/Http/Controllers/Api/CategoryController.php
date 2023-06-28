@@ -15,7 +15,11 @@ class CategoryController
 
         $site = app(SiteContainer::class)->getSite();
 
-        $categories = Category::query()->orderBy('sort')->get();
+        if (($category->id ?? null)) {
+            $categories[] = $category;
+        } else {
+            $categories = Category::query()->orderBy('sort')->get();
+        }
 
         $categoriesFound = [];
 

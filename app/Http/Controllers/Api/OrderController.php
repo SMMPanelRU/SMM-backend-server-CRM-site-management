@@ -7,10 +7,13 @@ use App\Actions\Order\CreateOrderAction;
 use App\Actions\Order\OrderDiscountAction;
 use App\Actions\Order\OrderFillExportSystemAction;
 use App\Actions\Order\ProductDiscountAction;
+use App\Enum\DefaultStatusEnum;
 use App\Enum\Orders\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Orders\OrderRequest;
+use App\Http\Requests\Order\NewBalanceOrderRequest;
 use App\Http\Requests\Order\NewOrderRequest;
+use App\Http\Resources\BalanceOrderResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\PaymentSystem;
@@ -39,6 +42,38 @@ class OrderController extends Controller
         return OrderResource::collection(
             $orders
         );
+    }
+
+    public function createBalanceOrder(NewBalanceOrderRequest $request)
+    {
+        $orderParameters = new OrderParameters();
+        $orderParameters->setStatus(OrderStatusEnum::New);
+        $orderParameters->setUser(\Auth::user());
+        $orderParameters->setSite($request->site);
+        $orderParameters->setPaymentSystem(PaymentSystem::query()->find($request->validated('payment_system_id')));
+        $orderParameters->setAmount($request->validated('amount'));
+
+        $order = new Order();
+        $order->user()->associate($orderParameters->getUser());
+        $order->site()->associate($orderParameters->getSite());
+        $order->paymentSystem()->associate($orderParameters->getPaymentSystem());
+        $order->amount   = $orderParameters->getAmount();
+        $order->discount = $orderParameters->getDiscount();
+        $order->status   = $orderParameters->getStatus();
+        $order->is_balance_order = DefaultStatusEnum::ON;
+        $order->save();
+
+        $paymentSystem = $orderParameters->getPaymentSystem();
+
+        try {
+            $paymentHandler = (new BasePaymentSystem())->getInstance($paymentSystem->handler);
+        } catch (\Throwable $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        $order->paymentForm = $paymentHandler->paymentForm($order);
+
+        return new BalanceOrderResource($order);
     }
 
     public function create(NewOrderRequest $request)
