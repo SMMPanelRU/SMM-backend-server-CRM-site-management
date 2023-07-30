@@ -19,7 +19,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^35.1.0",
         "@fortawesome/fontawesome-pro": "^6.2.0",
-        "@popperjs/core": "^2.11.6",
+        "@popperjs/core": "^2.11.8",
         "@sweetalert2/theme-dark": "^5.0.12",
         "bootstrap": "^5.2.1",
         "flatpickr": "^4.6.13",
