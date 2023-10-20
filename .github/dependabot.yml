@@ -1,12 +1,49 @@
+# Basic dependabot.yml file for a Laravel project
+
 version: 2
 updates:
+
+  # Maintain dependencies for PHP (for Laravel and other PHP dependencies)
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
       interval: "daily"
-    allow:
-      - dependency-type: "direct"
     ignore:
-      - dependency-name: "php"
-    reviewers:
-      - "your-github-username"
+      - dependency-name: "laravel/framework"
+        # Ignore updates to the Laravel Framework, or add specific versions to ignore
+
+  # Maintain dependencies for JavaScript (npm for frontend libraries)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Specify rules to ignore certain updates
+
+  # Maintain dependencies for Docker (if you're using Docker and have a Dockerfile)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # You can specify ignore conditions here as well
+
+# Enable versioning strategy updates
+# This is optional; use it if you want Dependabot to also update versioning strategies
+# along with the dependencies, such as changing from tilde to caret versioning in JavaScript.
+versioning-strategy: increase
+
+# Optional: Control the number of open pull requests Dependabot can have
+# This will limit the number of open pull requests to avoid overwhelming your CI/CD system.
+open-pull-requests-limit: 10
+
+# Configure automatic merging if desired
+# auto-merge: true
+
+# Specify assignees for the automatically created PRs
+# assignees:
+#   - "username1"
+#   - "username2"
+
+# Configure PR reviews
+# reviewers:
+#   - "reviewer1"
+#   - "reviewer2"
