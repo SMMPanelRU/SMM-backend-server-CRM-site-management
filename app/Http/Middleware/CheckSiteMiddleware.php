@@ -18,18 +18,19 @@ class CheckSiteMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
         $token = $request->headers->get('X-Client-Token');
 
         if (empty($token)) {
-            abort(response()->json('Unauthorized', 403));
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $site = Site::query()->where('api_key', (string) $token)->first();
+        // Use hash_equals to prevent timing attacks
+        $site = Site::query()->get()->first(function ($site) use ($token) {
+            return hash_equals($site->api_key, $token);
+        });
 
-        if ($site === null)
-        {
-            abort(response()->json('Unauthorized', 403));
+        if ($site === null) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         app(SiteContainer::class)->setSite($site);

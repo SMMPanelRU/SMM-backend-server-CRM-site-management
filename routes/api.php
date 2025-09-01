@@ -41,10 +41,12 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
 Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
     $limiter = config('fortify.limiters.login');
 
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])
+         ->middleware('throttle:5,1'); // 5 attempts per minute
 
     Route::post('/login', [AuthController::class, 'login'])
          ->middleware(array_filter([
+             'throttle:10,1', // 10 attempts per minute
              $limiter ? 'throttle:' . $limiter : null,
          ]));
 
@@ -56,8 +58,10 @@ Route::group(['middleware' => ['api'], 'as' => 'api.'], function () {
         Route::group(['prefix' => 'orders'], function () {
 
             Route::post('/', [OrderController::class, 'index'])->name('orders');
-            Route::post('/create', [OrderController::class, 'create'])->name('order.create');
-            Route::post('/create/balance', [OrderController::class, 'createBalanceOrder'])->name('order.balance.create');
+            Route::post('/create', [OrderController::class, 'create'])->name('order.create')
+                ->middleware('throttle:30,1'); // 30 order attempts per minute
+            Route::post('/create/balance', [OrderController::class, 'createBalanceOrder'])->name('order.balance.create')
+                ->middleware('throttle:10,1'); // 10 balance orders per minute
 
         });
     });
