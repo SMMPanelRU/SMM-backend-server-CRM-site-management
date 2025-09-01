@@ -2,6 +2,9 @@ FROM php:8.1-fpm
 
 WORKDIR /var/www/html
 
+# Create a non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
 RUN apt-get update
 
 RUN apt-get update \
@@ -18,7 +21,8 @@ RUN apt-get update \
         libmagickwand-dev \
         libcurl4-openssl-dev \
         pkg-config \
-        libssl-dev
+        libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
@@ -48,6 +52,12 @@ RUN docker-php-ext-enable \
         zip
 
 RUN ln -sf /bin/bash /bin/sh
+
+# Change ownership of the working directory
+RUN chown -R appuser:appuser /var/www/html
+
+# Switch to non-root user
+USER appuser
 
 EXPOSE 9000
 
