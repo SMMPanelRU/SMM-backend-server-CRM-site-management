@@ -6,6 +6,7 @@ use App\Http\Middleware\CheckSiteMiddleware;
 use App\Http\Middleware\ClientLanguageMiddleware;
 use App\Http\Middleware\IsAdministrator;
 use App\Http\Middleware\LanguageMiddleware;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -25,6 +26,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        SecurityHeaders::class,
     ];
 
     /**
