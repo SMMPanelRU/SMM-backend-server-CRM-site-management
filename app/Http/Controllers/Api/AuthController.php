@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -52,27 +53,43 @@ class AuthController
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $site = app(SiteContainer::class)->getSite();
 
         if (!$site) {
-            abort(401);
+            return response()->json([
+                'message' => 'Site not found',
+            ], 401);
         }
 
+        $validatedData = $request->validated();
+
         $authData = [
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'],
             'site_id' => $site->id,
         ];
 
         if (!Auth::attempt($authData)) {
             return response()->json([
-                'message' => 'Invalid login details',
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where([
+            'email' => $validatedData['email'],
+            'site_id' => $site->id
+        ])->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 401);
+        }
+
+        // Revoke all existing tokens for security
+        $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

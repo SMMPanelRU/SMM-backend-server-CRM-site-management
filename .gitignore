@@ -6,6 +6,9 @@
 /vendor
 .env
 .env.backup
+.env.production
+.env.local
+.env.testing
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -23,4 +26,21 @@ _ide_helper.php
 /public/vendor/
 /app/Console/Commands/Local
 http_requests/*.env.json
-.env.testing
+
+# Security: Never commit these files
+*.log
+*.key
+*.pem
+*.crt
+*.p12
+.env.*
+!.env.example
+composer.lock.bak
+package-lock.json.bak
+
+# IDE and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
